@@ -516,8 +516,12 @@ function render() {
   const content = current && BUILT.has(current) ? fn() : SCREENS._placeholder((NAV_GROUPS.flatMap(g=>g.items).find(i=>i.href===current)||{}).label || "画面");
   document.getElementById("app").innerHTML = `
     <div class="min-h-screen">
-      <div class="bg-primary/10 px-4 py-1.5 text-center text-xs text-primary">
-        これは <b>ゲンバノ</b> の画面デモです（サンプルデータ・操作は保存されません）。テーマ切替やメニュー遷移をお試しいただけます。
+      <div class="flex items-center justify-between gap-3 bg-[#15130d] px-4 py-1.5 text-xs text-[#f3efe6]">
+        <a href="../index.html" class="flex shrink-0 items-center gap-1.5 font-bold hover:underline">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/></svg>
+          Works に戻る
+        </a>
+        <span class="truncate text-[#b8b2a2]">これは <b class="text-[#f3efe6]">ゲンバノ</b> の画面デモです（サンプルデータ・操作は保存されません）</span>
       </div>
       <header class="sticky top-0 z-30 border-b border-line bg-surface/90 backdrop-blur">
         <div class="mx-auto flex h-14 max-w-content items-center gap-3 px-4">

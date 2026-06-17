@@ -4,238 +4,340 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow" />
-<title>hryoma1217 — Portfolio</title>
-<meta name="description" content="hryoma1217 の制作物ポートフォリオ。個人開発・受託で作った Web アプリ／業務システムをまとめています。" />
+<title>hryoma1217 — Works</title>
+<meta name="description" content="hryoma1217 の制作物。Web アプリ・業務システム・LP の制作実績をまとめたポートフォリオ。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0e1116;
-    --bg-soft: #141a22;
-    --card: #1a212b;
-    --card-2: #202934;
-    --border: #2a3441;
-    --text: #e7edf4;
-    --muted: #9aa7b6;
-    --muted-2: #6f7d8e;
-    --amber: #f6a609;
-    --amber-soft: #ffce6b;
-    --blue: #3d8bff;
-    --blue-soft: #7fb4ff;
-    --green: #34d399;
-    --radius: 16px;
-    --shadow: 0 10px 30px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.25);
-    --shadow-sm: 0 4px 14px rgba(0,0,0,.25);
-    --maxw: 1080px;
+    --paper: #f3efe6;
+    --paper-2: #ece7da;
+    --card: #fbfaf6;
+    --ink: #15130d;
+    --ink-2: #4a463b;
+    --ink-3: #8a8474;
+    --line: #d8d2c3;
+    --line-2: #c7c0ae;
+    --accent: #cf4326;
+    --accent-ink: #a8331b;
+    --maxw: 1200px;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
-    background:
-      radial-gradient(1200px 600px at 85% -10%, rgba(246,166,9,.10), transparent 60%),
-      radial-gradient(900px 500px at -5% 0%, rgba(61,139,255,.10), transparent 55%),
-      var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN",
-      "Hiragino Sans", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
-    line-height: 1.75;
+    background-color: var(--paper);
+    /* faint paper grain to avoid flat templated look */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    color: var(--ink);
+    font-family: "Zen Kaku Gothic New", -apple-system, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
-    letter-spacing: .01em;
   }
   a { color: inherit; text-decoration: none; }
-  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  .serif { font-family: "Instrument Serif", "Zen Kaku Gothic New", serif; font-weight: 400; }
 
-  /* Header */
-  header.site {
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(10px);
-    background: rgba(14,17,22,.72);
-    border-bottom: 1px solid var(--border);
-  }
-  header.site .wrap {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
-  }
-  .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; }
-  .brand .dot {
-    width: 34px; height: 34px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--blue), var(--amber));
-    display: grid; place-items: center; color: #0b0e13; font-weight: 800; font-size: .95rem;
-  }
-  .brand small { display: block; color: var(--muted-2); font-weight: 500; font-size: .72rem; letter-spacing: .08em; }
-  header .links { display: flex; gap: 18px; font-size: .9rem; color: var(--muted); }
-  header .links a:hover { color: var(--text); }
+  /* Top bar */
+  .topbar { border-bottom: 1px solid var(--line-2); }
+  .topbar .wrap { display: flex; align-items: baseline; justify-content: space-between; height: 60px; }
+  .topbar .mark { font-weight: 900; letter-spacing: -.01em; font-size: 1.05rem; }
+  .topbar .mark .dot { color: var(--accent); }
+  .topbar nav { display: flex; gap: 22px; font-size: .82rem; color: var(--ink-2); letter-spacing: .02em; }
+  .topbar nav a { padding-bottom: 2px; border-bottom: 1px solid transparent; }
+  .topbar nav a:hover { border-bottom-color: var(--ink); }
 
-  /* Hero */
-  .hero { padding: 80px 0 40px; }
-  .eyebrow {
-    display: inline-block; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
-    color: var(--amber-soft); border: 1px solid rgba(246,166,9,.3); border-radius: 999px;
-    padding: 5px 14px; margin-bottom: 22px;
+  /* Masthead */
+  .masthead { padding: 64px 0 40px; }
+  .issue {
+    display: flex; align-items: center; gap: 14px;
+    font-size: .74rem; letter-spacing: .26em; text-transform: uppercase; color: var(--ink-3);
+    margin-bottom: 26px;
   }
-  .hero h1 { font-size: clamp(2rem, 4.5vw, 3.1rem); line-height: 1.2; margin: 0 0 16px; font-weight: 800; }
-  .hero h1 .accent { color: var(--amber); }
-  .hero p.lead { color: var(--muted); font-size: 1.08rem; max-width: 680px; margin: 0; }
-  .hero .me { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 26px; font-size: .9rem; color: var(--muted-2); }
-  .hero .me a { color: var(--blue-soft); }
-  .hero .me a:hover { text-decoration: underline; }
+  .issue .rule { flex: 1; height: 1px; background: var(--line-2); }
+  .issue .star { color: var(--accent); letter-spacing: 0; }
+  .masthead h1 {
+    margin: 0; font-weight: 900; letter-spacing: -.02em;
+    font-size: clamp(2.6rem, 7vw, 5.4rem); line-height: .98;
+  }
+  .masthead h1 em { font-style: normal; color: var(--accent); }
+  .masthead .serifline {
+    font-size: clamp(2.3rem, 6vw, 4.6rem); line-height: 1; display: block; margin-top: .12em;
+  }
+  .masthead .lead {
+    margin: 30px 0 0; max-width: 560px; color: var(--ink-2); font-size: 1.05rem;
+  }
+  .masthead .meta {
+    margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px 26px;
+    font-size: .82rem; color: var(--ink-3); letter-spacing: .02em;
+  }
+  .masthead .meta a { color: var(--accent-ink); border-bottom: 1px solid var(--line-2); }
+  .masthead .meta a:hover { border-bottom-color: var(--accent-ink); }
 
-  /* Projects */
-  .section { padding: 44px 0 20px; }
-  .section h2 { font-size: 1.05rem; letter-spacing: .04em; color: var(--muted); margin: 0 0 22px; font-weight: 600; }
-  .grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+  /* Section label */
+  .sectionhead {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-top: 2px solid var(--ink); padding-top: 12px; margin: 30px 0 22px;
+  }
+  .sectionhead .label { font-weight: 900; letter-spacing: .02em; font-size: 1.1rem; }
+  .sectionhead .count { font-size: .8rem; color: var(--ink-3); letter-spacing: .12em; }
 
-  .proj {
-    position: relative;
-    background: linear-gradient(180deg, var(--card), var(--bg-soft));
-    border: 1px solid var(--border); border-radius: var(--radius);
-    overflow: hidden; box-shadow: var(--shadow-sm);
-    display: grid; grid-template-columns: 1.3fr 1fr;
+  /* Bento grid */
+  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+  .tile {
+    position: relative; display: flex; flex-direction: column;
+    background: var(--card); border: 1px solid var(--line-2);
+    overflow: hidden; transition: transform .18s ease, border-color .18s ease;
   }
-  @media (max-width: 760px){ .proj { grid-template-columns: 1fr; } }
-  .proj .body { padding: 30px 30px 26px; }
-  .proj .tag {
-    display: inline-block; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--blue-soft); background: rgba(61,139,255,.12); border-radius: 6px; padding: 3px 9px; margin-bottom: 14px;
+  .tile:hover { transform: translateY(-3px); border-color: var(--ink); }
+  .tile .pad { padding: 22px 24px; }
+  .tile .num {
+    font-size: 1.5rem; line-height: 1; color: var(--accent); margin-bottom: 14px;
   }
-  .proj h3 { margin: 0 0 6px; font-size: 1.5rem; font-weight: 800; }
-  .proj h3 small { color: var(--muted-2); font-weight: 500; font-size: .9rem; margin-left: 8px; }
-  .proj p { color: var(--muted); margin: 0 0 18px; font-size: .96rem; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-  .chip { font-size: .76rem; color: var(--muted); background: var(--card-2); border: 1px solid var(--border); border-radius: 999px; padding: 4px 11px; }
-  .actions { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 11px 18px; border-radius: 11px; font-weight: 700; font-size: .9rem;
-    border: 1px solid var(--border); transition: transform .15s, border-color .15s, background .15s;
+  .tile h3 { margin: 0 0 4px; font-size: 1.5rem; font-weight: 900; letter-spacing: -.01em; }
+  .tile h3 .en { font-size: .9rem; color: var(--ink-3); font-weight: 500; margin-left: 8px; letter-spacing: .04em; }
+  .tile .kicker { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+  .tile p { margin: 0 0 16px; color: var(--ink-2); font-size: .94rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .chip { font-size: .72rem; color: var(--ink-2); border: 1px solid var(--line-2); border-radius: 999px; padding: 3px 10px; letter-spacing: .02em; }
+  .links { display: flex; gap: 16px; margin-top: auto; }
+  .lnk {
+    display: inline-flex; align-items: center; gap: 6px; font-size: .86rem; font-weight: 700;
+    border-bottom: 2px solid var(--ink); padding-bottom: 2px;
   }
-  .btn:hover { transform: translateY(-2px); }
-  .btn.primary { background: linear-gradient(135deg, var(--blue), #2f6fe0); border-color: transparent; color: #fff; }
-  .btn.ghost { background: var(--card); color: var(--text); }
-  .btn.ghost:hover { border-color: var(--blue); }
+  .lnk.ghost { border-bottom-color: var(--line-2); color: var(--ink-2); font-weight: 500; }
+  .lnk:hover { border-bottom-color: var(--accent); color: var(--accent-ink); }
+  .lnk svg { transition: transform .18s ease; }
+  .tile:hover .lnk svg { transform: translateX(3px); }
 
-  .proj .visual {
-    border-left: 1px solid var(--border);
-    background:
-      radial-gradient(600px 300px at 70% 0%, rgba(61,139,255,.12), transparent 60%),
-      var(--bg);
-    display: grid; place-items: center; padding: 26px; min-height: 200px;
-  }
-  @media (max-width: 760px){ .proj .visual { border-left: none; border-top: 1px solid var(--border); } }
-  .mock {
-    width: 100%; border-radius: 12px; border: 1px solid var(--border);
-    background: var(--card); box-shadow: var(--shadow); overflow: hidden;
-  }
-  .mock .bar { height: 28px; background: var(--card-2); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px; padding: 0 11px; }
-  .mock .bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--muted-2); display: inline-block; }
-  .mock .rows { padding: 14px; display: grid; gap: 9px; }
-  .mock .row { height: 11px; border-radius: 5px; background: linear-gradient(90deg, var(--card-2), var(--border)); }
-  .mock .row.w1 { width: 60%; } .mock .row.w2 { width: 85%; } .mock .row.w3 { width: 45%; }
-  .mock .row.accent { background: linear-gradient(90deg, rgba(246,166,9,.5), rgba(61,139,255,.4)); width: 70%; }
+  .shot { width: 100%; display: block; border-top: 1px solid var(--line-2); background: #fff; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
 
-  .placeholder {
-    border: 1px dashed var(--border); border-radius: var(--radius);
-    padding: 30px; text-align: center; color: var(--muted-2); font-size: .92rem;
+  /* Feature tile (genbano) */
+  .t-feature { grid-column: span 4; grid-row: span 2; }
+  .t-feature .shot { flex: 1; min-height: 230px; }
+  .t-feature .shot img { aspect-ratio: auto; height: 100%; min-height: 230px; }
+  /* Tall tile (mimamo) */
+  .t-tall { grid-column: span 2; grid-row: span 2; }
+  .t-tall .visual {
+    flex: 1; min-height: 200px; border-top: 1px solid var(--line-2);
+    background: linear-gradient(160deg, #eef2f4, #e3e9ec);
+    display: grid; place-items: center; padding: 18px; overflow: hidden;
   }
+  .t-tall .visual img { max-width: 100%; max-height: 320px; object-fit: contain; }
+  /* Wide half tiles */
+  .t-wide { grid-column: span 3; }
+  .t-wide .diagram {
+    border-top: 1px solid var(--line-2); padding: 22px 24px; background: var(--paper-2);
+  }
+
+  /* Subtitle overlay mock (realtime-translation) */
+  .ov-mock { background: #14171c; border-radius: 8px; padding: 14px 16px; }
+  .ov-mock .src { color: #7f8a99; font-size: .8rem; }
+  .ov-mock .dst { color: #eaf0f7; font-size: .96rem; font-weight: 700; margin-top: 4px; }
+  .ov-mock .bar { display: flex; gap: 5px; margin-top: 10px; }
+  .ov-mock .bar i { height: 4px; border-radius: 2px; background: #2f3947; display: block; }
+  .ov-mock .bar i.a { width: 38%; background: #4f9cff; } .ov-mock .bar i.b { width: 22%; } .ov-mock .bar i.c { width: 30%; }
+
+  /* Pipeline diagram (youtube) */
+  .pipe { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .pipe .step { font-size: .76rem; font-weight: 700; background: var(--card); border: 1px solid var(--line-2); border-radius: 6px; padding: 6px 10px; }
+  .pipe .arr { color: var(--accent); font-weight: 900; }
 
   /* Footer */
-  footer.site { border-top: 1px solid var(--border); padding: 36px 0 50px; margin-top: 40px; }
-  footer .ft { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; color: var(--muted-2); font-size: .85rem; }
-  footer .ft a { color: var(--blue-soft); }
-  footer .copyright { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--muted-2); font-size: .78rem; }
+  footer { margin-top: 56px; border-top: 1px solid var(--line-2); }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; padding-top: 24px; padding-bottom: 12px; color: var(--ink-3); font-size: .82rem; }
+  footer a { color: var(--accent-ink); }
+  footer .copyright { color: var(--ink-3); font-size: .74rem; padding-bottom: 40px; }
+
+  @media (max-width: 860px) {
+    .bento { grid-template-columns: repeat(2, 1fr); }
+    .t-feature, .t-tall, .t-wide { grid-column: span 2; grid-row: auto; }
+    .t-feature .shot, .t-feature .shot img { min-height: 200px; }
+    .t-tall .visual { min-height: 220px; }
+  }
+  @media (max-width: 520px) {
+    .topbar nav { gap: 14px; }
+    .masthead { padding: 44px 0 28px; }
+  }
 </style>
 </head>
 <body>
 
-<header class="site">
+<div class="topbar">
   <div class="wrap">
-    <div class="brand">
-      <span class="dot">H</span>
-      <span>hryoma1217<small>PORTFOLIO</small></span>
-    </div>
-    <nav class="links">
-      <a href="#works">制作物</a>
+    <div class="mark">hryoma1217<span class="dot">.</span></div>
+    <nav>
+      <a href="#works">Works</a>
       <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="issue">
+      <span class="star">✶</span>
+      <span>Selected Works</span>
+      <span class="rule"></span>
+      <span>Issue 2026</span>
+    </div>
+    <h1>
+      作って、<em>運用</em>まで。
+      <span class="serif serifline">Design &amp; build, shipped.</span>
+    </h1>
+    <p class="lead">
+      個人開発・受託で手がけた Web アプリ／業務システム／LP の制作実績です。
+      企画・デザインから実装・運用まで一人称で完結させます。
+    </p>
+    <div class="meta">
+      <span>Web App · 業務システム · LP / HP 制作</span>
+      <span>Next.js / React / TypeScript / Cloudflare / AWS</span>
+      <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a>
+    </div>
+  </div>
 </header>
 
-<main>
-  <section class="hero">
-    <div class="wrap">
-      <span class="eyebrow">Web / 業務システム開発</span>
-      <h1>作って、現場で<span class="accent">動かす</span>。</h1>
-      <p class="lead">
-        個人開発・受託で手がけた Web アプリと業務システムをまとめています。
-        企画・設計から実装・運用まで一人称で回せるのが強みです。
-      </p>
-      <div class="me">
-        <span>Next.js / React / TypeScript / Cloudflare / Supabase</span>
-        <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a>
-      </div>
-    </div>
-  </section>
+<main class="wrap" id="works">
+  <div class="sectionhead">
+    <span class="label">Works</span>
+    <span class="count">04 PROJECTS</span>
+  </div>
 
-  <section class="section" id="works">
-    <div class="wrap">
-      <h2>制作物</h2>
-      <div class="grid">
+  <div class="bento">
 
-        <article class="proj">
-          <div class="body">
-            <span class="tag">業務SaaS · 受託 / 個人開発</span>
-            <h3>ゲンバノ <small>Genbano</small></h3>
-            <p>
-              地方の建設会社向け業務統合システム。紙・Excel・Access でバラバラだった事務を、
-              <strong>日報から給与計算まで一気通貫</strong>で置き換え。職人はスマホで日報入力、
-              事務所側で工事・原価・請求・給与へ自動連携します。
-            </p>
-            <div class="chips">
-              <span class="chip">Next.js 15</span>
-              <span class="chip">React 19</span>
-              <span class="chip">Cloudflare D1 / R2</span>
-              <span class="chip">LINE LIFF</span>
-              <span class="chip">Drizzle ORM</span>
-            </div>
-            <div class="actions">
-              <a class="btn primary" href="genbano/demo.html">
-                デモ画面を触る
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-              </a>
-              <a class="btn ghost" href="genbano/index.html">ケーススタディ</a>
-            </div>
-          </div>
-          <div class="visual">
-            <div class="mock">
-              <div class="bar"><i></i><i></i><i></i></div>
-              <div class="rows">
-                <div class="row accent"></div>
-                <div class="row w2"></div>
-                <div class="row w1"></div>
-                <div class="row w3"></div>
-                <div class="row w2"></div>
-                <div class="row w1"></div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <div class="placeholder">
-          ほかの制作物は順次追加予定です。
+    <!-- Genbano: feature -->
+    <article class="tile t-feature">
+      <div class="pad">
+        <div class="num serif">01</div>
+        <div class="kicker">業務 SaaS · 受託 / 個人開発</div>
+        <h3>ゲンバノ<span class="en">Genbano</span></h3>
+        <p>
+          地方の建設会社向け業務統合システム。紙・Excel・Access でバラバラだった事務を、
+          日報からの原価・請求・給与まで一気通貫で置き換え。職人はスマホ、事務所は PC で同じデータを扱います。
+        </p>
+        <div class="chips">
+          <span class="chip">Next.js 15</span>
+          <span class="chip">React 19</span>
+          <span class="chip">Cloudflare D1 / R2</span>
+          <span class="chip">LINE LIFF</span>
         </div>
-
+        <div class="links">
+          <a class="lnk" href="genbano/demo.html">
+            デモを触る
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="lnk ghost" href="genbano/index.html">ケーススタディ</a>
+        </div>
       </div>
-    </div>
-  </section>
+      <a class="shot" href="genbano/demo.html" aria-label="ゲンバノのデモ画面">
+        <img src="assets/genbano-dashboard.png" alt="ゲンバノのダッシュボード画面" loading="lazy">
+      </a>
+    </article>
+
+    <!-- Mimamo: tall -->
+    <article class="tile t-tall">
+      <div class="pad">
+        <div class="num serif">02</div>
+        <div class="kicker">WebRTC SaaS · LP 制作</div>
+        <h3>Mimamo</h3>
+        <p>
+          使っていないスマホをブラウザだけで見守りカメラにする P2P サービス。
+          製品本体とランディングページを一人で設計・実装しました。
+        </p>
+        <div class="chips">
+          <span class="chip">WebRTC P2P</span>
+          <span class="chip">AWS Lambda</span>
+          <span class="chip">LP デザイン</span>
+        </div>
+        <div class="links">
+          <a class="lnk" href="mimamo/index.html">
+            LP を見る
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+      <a class="visual" href="mimamo/index.html" aria-label="Mimamo の LP">
+        <img src="mimamo/assets/mimamo_hero.png" alt="Mimamo のヒーロービジュアル" loading="lazy">
+      </a>
+    </article>
+
+    <!-- realtime-translation: wide half -->
+    <article class="tile t-wide">
+      <div class="pad">
+        <div class="num serif">03</div>
+        <div class="kicker">デスクトップ AI アプリ</div>
+        <h3>Realtime Translation<span class="en">字幕翻訳</span></h3>
+        <p>
+          PC スピーカーの音声をリアルタイムで文字起こし＆翻訳し、画面に字幕オーバーレイ表示。
+          ゲーム・動画視聴中も画面を切り替えずに読めます。
+        </p>
+        <div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">WASAPI</span>
+          <span class="chip">Whisper STT</span>
+          <span class="chip">マルチ AI 連携</span>
+        </div>
+        <div class="links">
+          <a class="lnk" href="realtime-translation/index.html">
+            詳細を見る
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="diagram">
+        <div class="ov-mock">
+          <div class="src">"This boss fight is actually insane right now"</div>
+          <div class="dst">このボス戦、マジで今ヤバいことになってる</div>
+          <div class="bar"><i class="a"></i><i class="b"></i><i class="c"></i></div>
+        </div>
+      </div>
+    </article>
+
+    <!-- YouTube pipeline: wide half -->
+    <article class="tile t-wide">
+      <div class="pad">
+        <div class="num serif">04</div>
+        <div class="kicker">動画自動生成パイプライン</div>
+        <h3>YouTube Auto Pipeline<span class="en">全自動</span></h3>
+        <p>
+          台本生成から音声合成・口パク・字幕・サムネ・投稿までを全自動化した動画パイプライン。
+          長尺（ゆっくり / ずんだもん）と Shorts の両系統を運用しています。
+        </p>
+        <div class="chips">
+          <span class="chip">Python</span>
+          <span class="chip">VOICEVOX</span>
+          <span class="chip">FFmpeg</span>
+          <span class="chip">LLM 台本</span>
+        </div>
+        <div class="links">
+          <a class="lnk" href="youtube/index.html">
+            詳細を見る
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="diagram">
+        <div class="pipe">
+          <span class="step">台本</span><span class="arr">→</span>
+          <span class="step">音声合成</span><span class="arr">→</span>
+          <span class="step">口パク/字幕</span><span class="arr">→</span>
+          <span class="step">サムネ</span><span class="arr">→</span>
+          <span class="step">投稿</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
 </main>
 
-<footer class="site">
+<footer>
   <div class="wrap">
-    <div class="ft">
-      <div>hryoma1217 — Portfolio</div>
-      <div><a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a></div>
-    </div>
-    <div class="copyright">© 2026 hryoma1217 (github.com/hryoma1217). 本ページおよび掲載デザイン・文章の無断転載・複製を禁じます。ポートフォリオ用途。</div>
+    <div>hryoma1217 — Selected Works, 2026</div>
+    <div><a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a></div>
   </div>
+  <div class="wrap copyright">© 2026 hryoma1217 (github.com/hryoma1217). 本ページおよび掲載デザイン・文章の無断転載・複製を禁じます。ポートフォリオ用途。</div>
 </footer>
 
 </body>

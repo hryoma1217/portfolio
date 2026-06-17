@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>YouTube Auto Pipeline — 動画全自動生成 | hryoma1217 Works</title>
+<meta name="description" content="台本生成から音声合成・口パク・字幕・サムネ・投稿までを全自動化した動画生成パイプライン。長尺（ゆっくり / ずんだもん）と Shorts の両系統を運用。" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f3efe6;--paper-2:#ece7da;--card:#fbfaf6;--ink:#15130d;--ink-2:#4a463b;--ink-3:#8a8474;--line:#d8d2c3;--line-2:#c7c0ae;--accent:#cf4326;--accent-ink:#a8331b;--maxw:920px}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background-color:var(--paper);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");color:var(--ink);font-family:"Zen Kaku Gothic New",-apple-system,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .serif{font-family:"Instrument Serif","Zen Kaku Gothic New",serif;font-weight:400}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .pf-bar{background:#15130d;color:#f3efe6;font-size:13px}
+  .pf-bar .in{max-width:var(--maxw);margin:0 auto;padding:9px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .pf-bar a.back{color:#f3efe6;text-decoration:none;font-weight:700;display:inline-flex;align-items:center;gap:7px}
+  .pf-bar a.back:hover svg{transform:translateX(-3px)}
+  .pf-bar a.back svg{transition:transform .15s}
+  .pf-bar .note{color:#b8b2a2}
+  @media(max-width:520px){.pf-bar .note{display:none}}
+
+  .masthead{padding:56px 0 34px}
+  .issue{display:flex;align-items:center;gap:14px;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);margin-bottom:22px}
+  .issue .rule{flex:1;height:1px;background:var(--line-2)}
+  .issue .star{color:var(--accent)}
+  h1{margin:0;font-weight:900;letter-spacing:-.02em;font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.04}
+  h1 .en{display:block;font-size:1rem;color:var(--ink-3);font-weight:500;letter-spacing:.06em;margin-top:10px}
+  .lead{margin:24px 0 0;color:var(--ink-2);font-size:1.08rem;max-width:660px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}
+  .chip{font-size:.74rem;color:var(--ink-2);border:1px solid var(--line-2);border-radius:999px;padding:4px 11px}
+
+  .ov{margin:36px 0 8px;background:#14171c;border:1px solid var(--line-2);border-radius:12px;padding:26px 28px}
+  .ov .lbl{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#7f8a99;margin-bottom:16px}
+  .ov .stage{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .ov .node{background:#1d2129;border:1px solid #2f3947;border-radius:7px;padding:8px 13px;color:#eaf0f7;font-size:.86rem;font-weight:700}
+  .ov .node .s{display:block;font-size:.64rem;font-weight:500;color:#7f8a99;letter-spacing:.08em;margin-top:2px}
+  .ov .arr{color:#4f9cff;font-weight:900}
+  .ov .cap{margin-top:18px;color:#9aa7b6;font-size:.86rem}
+
+  .sec{padding:30px 0;border-top:1px solid var(--line-2)}
+  .sec h2{font-size:1.05rem;font-weight:900;margin:0 0 18px;display:flex;align-items:baseline;gap:12px}
+  .sec h2 .n{font-family:"Instrument Serif",serif;color:var(--accent);font-size:1.3rem}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .feat{background:var(--card);border:1px solid var(--line-2);padding:18px 20px}
+  .feat h3{margin:0 0 5px;font-size:1rem;font-weight:700}
+  .feat p{margin:0;color:var(--ink-2);font-size:.9rem}
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:640px){.modes{grid-template-columns:1fr}}
+
+  footer{margin-top:40px;border-top:1px solid var(--line-2)}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;padding-top:22px;color:var(--ink-3);font-size:.8rem}
+  footer .cp{padding-top:6px;padding-bottom:40px;color:var(--ink-3);font-size:.74rem}
+  footer a{color:var(--accent-ink)}
+</style>
+</head>
+<body>
+
+<div class="pf-bar">
+  <div class="in">
+    <a class="back" href="../index.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 18l-6-6 6-6"/></svg>
+      Works に戻る
+    </a>
+    <span class="note">YouTube Auto Pipeline — 動画全自動生成</span>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="issue"><span class="star">✶</span><span>Automation Pipeline</span><span class="rule"></span><span>Work 04</span></div>
+    <h1>台本から投稿まで、全部まわす。<span class="en">YouTube Auto Pipeline — 動画自動生成パイプライン</span></h1>
+    <p class="lead">
+      お題を渡すだけで、台本生成・音声合成・立ち絵の口パク・字幕・背景・サムネ・YouTube 投稿までを一気通貫で自動化した動画生成パイプライン。
+      長尺（ゆっくり / ずんだもん）と Shorts の両系統を、同じ仕組みで継続運用しています。
+    </p>
+    <div class="chips">
+      <span class="chip">Python</span>
+      <span class="chip">VOICEVOX / AquesTalk</span>
+      <span class="chip">FFmpeg 合成</span>
+      <span class="chip">LLM 台本生成</span>
+      <span class="chip">flux 背景生成</span>
+      <span class="chip">YouTube Data API 投稿</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="ov">
+    <div class="lbl">Pipeline overview</div>
+    <div class="stage">
+      <span class="node">台本<span class="s">LLM / prefetch</span></span><span class="arr">→</span>
+      <span class="node">音声合成<span class="s">VOICEVOX / AquesTalk</span></span><span class="arr">→</span>
+      <span class="node">口パク・字幕<span class="s">RMS / ASS</span></span><span class="arr">→</span>
+      <span class="node">背景・サムネ<span class="s">flux / PIL</span></span><span class="arr">→</span>
+      <span class="node">合成・投稿<span class="s">FFmpeg / API</span></span>
+    </div>
+    <div class="cap">人手の介入は「お題の指定」と「公開前チェック」だけ。生成・合成・下書き投稿までは無人で完走します。</div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="sec">
+    <h2><span class="n">01</span>できること</h2>
+    <div class="grid">
+      <div class="feat"><h3>お題だけで1本まるごと生成</h3><p>テーマを渡すと、台本・音声・立ち絵動画・字幕・サムネ・概要欄まで自動生成。最後の公開判断だけ人が行います。</p></div>
+      <div class="feat"><h3>2キャラの掛け合い台本</h3><p>解説役と聞き役の会話形式で構成。LLM で下書きし、誤読・口調を機械チェックしてから音声化します。</p></div>
+      <div class="feat"><h3>立ち絵の口パク・まばたき</h3><p>音量解析（RMS）で発話区間を検出し、話している側だけ口を開閉。表情・まばたきも自動で動かします。</p></div>
+      <div class="feat"><h3>長尺と Shorts を同じ仕組みで</h3><p>10〜15分の長尺と縦型 Shorts を共通の中間形式から出力。スキンを切り替えるだけで声・立ち絵・演出が変わります。</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2><span class="n">02</span>処理の流れ</h2>
+    <div class="grid">
+      <div class="feat"><h3>1. 台本生成</h3><p>LLM もしくは事前生成（prefetch）で会話台本を作成。話者・章立て・サムネ文言・読み辞書を構造化 JSON にまとめます。</p></div>
+      <div class="feat"><h3>2. 音声合成</h3><p>ずんだもんは VOICEVOX、ゆっくりは AquesTalk で合成。固有名詞はユーザー辞書で誤読を事前補正します。</p></div>
+      <div class="feat"><h3>3. 映像合成</h3><p>口パク・字幕・章タイトル・背景・BGM / SE を FFmpeg のフィルタグラフで一括合成し、1本の mp4 に仕上げます。</p></div>
+      <div class="feat"><h3>4. メタデータと投稿</h3><p>タイトル・概要・章タイムスタンプ・タグを自動生成し、YouTube Data API で下書き（非公開）投稿まで実行します。</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2><span class="n">03</span>2つの動画系統</h2>
+    <div class="modes">
+      <div class="feat"><h3>長尺 — ゆっくり / ずんだもん</h3><p>10〜15分の解説動画。章立て・ミッドロール設計・サムネ最適化まで含めて1本を組み上げます。</p></div>
+      <div class="feat"><h3>Shorts — 縦型・短尺</h3><p>テーマ別に毎日量産する縦型ショート。長尺への相互誘導リンクも自動で差し込みます。</p></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <h2><span class="n">04</span>技術的なポイント</h2>
+    <div class="grid">
+      <div class="feat"><h3>共通中間形式で多出力</h3><p>話者を抽象化した台本 JSON を起点に、スキン（声・立ち絵・色・演出）を差し替えて複数パターンを同一コードで出力。</p></div>
+      <div class="feat"><h3>誤読を機械チェック</h3><p>合成前に全行の読み仮名を検証し、辞書登録や表記修正で固有名詞のミスを潰してからレンダーします。</p></div>
+      <div class="feat"><h3>長尺でも破綻しない合成</h3><p>口パクの区間結合やフィルタのスクリプト化で、長尺レンダー時のメモリ枯渇・容量爆発を回避。</p></div>
+      <div class="feat"><h3>相互誘導まで自動化</h3><p>投稿後に再生リスト追加・Shorts ⇔ 長尺の概要欄リンク・誘導コメントを自動付与し、回遊を設計します。</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>YouTube Auto Pipeline — hryoma1217 Works, 2026</div>
+    <div><a href="../index.html">← すべての制作物</a></div>
+  </div>
+  <div class="wrap cp">© 2026 hryoma1217 (github.com/hryoma1217). 無断転載・複製を禁じます。ポートフォリオ用途。</div>
+</footer>
+
+</body>
+</html>
