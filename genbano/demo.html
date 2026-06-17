@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="solid">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ゲンバノ — 画面デモ（サンプルデータ）</title>
+<meta name="description" content="建設業務統合SaaS「ゲンバノ」の画面デモ。実データに触れずに、実際の操作画面（ダッシュボード/工事/日報/見積/請求/給与）を確認できます。" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          bg: "rgb(var(--bg) / <alpha-value>)",
+          surface: "rgb(var(--surface) / <alpha-value>)",
+          "surface-2": "rgb(var(--surface-2) / <alpha-value>)",
+          fg: "rgb(var(--fg) / <alpha-value>)",
+          muted: "rgb(var(--muted) / <alpha-value>)",
+          line: "rgb(var(--line) / <alpha-value>)",
+          primary: { DEFAULT: "rgb(var(--primary) / <alpha-value>)", fg: "rgb(var(--primary-fg) / <alpha-value>)" },
+          accent: "rgb(var(--accent) / <alpha-value>)",
+          ring: "rgb(var(--ring) / <alpha-value>)",
+          ok: "rgb(var(--ok) / <alpha-value>)",
+          warn: "rgb(var(--warn) / <alpha-value>)",
+          danger: "rgb(var(--danger) / <alpha-value>)",
+        },
+        borderRadius: {
+          DEFAULT: "var(--radius)",
+          lg: "calc(var(--radius) + 4px)",
+          xl: "calc(var(--radius) + 8px)",
+        },
+        boxShadow: { card: "var(--shadow)" },
+        maxWidth: { content: "72rem" },
+      },
+    },
+  };
+</script>
+<style>
+  /* ===== テーマ定義（本物の globals.css から移植） ===== */
+  :root, [data-theme="solid"] {
+    color-scheme: light;
+    --bg: 241 245 249; --surface: 255 255 255; --surface-2: 248 250 252;
+    --fg: 15 23 42; --muted: 100 116 139; --line: 226 232 240;
+    --primary: 37 99 235; --primary-fg: 255 255 255; --accent: 234 88 12;
+    --ring: 59 130 246; --ok: 22 163 74; --warn: 217 119 6; --danger: 220 38 38;
+    --radius: 10px;
+    --shadow: 0 1px 2px rgb(15 23 42 / 0.06), 0 8px 24px rgb(15 23 42 / 0.05);
+  }
+  [data-theme="saas"] {
+    color-scheme: light;
+    --bg: 250 250 255; --surface: 255 255 255; --surface-2: 245 243 255;
+    --fg: 24 24 37; --muted: 113 113 130; --line: 233 231 245;
+    --primary: 99 102 241; --primary-fg: 255 255 255; --accent: 236 72 153;
+    --ring: 129 140 248; --ok: 16 185 129; --warn: 234 179 8; --danger: 244 63 94;
+    --radius: 16px;
+    --shadow: 0 1px 2px rgb(79 70 229 / 0.06), 0 12px 32px rgb(79 70 229 / 0.10);
+  }
+  [data-theme="night"] {
+    color-scheme: dark;
+    --bg: 15 23 42; --surface: 30 41 59; --surface-2: 51 65 85;
+    --fg: 226 232 240; --muted: 148 163 184; --line: 51 65 85;
+    --primary: 56 189 248; --primary-fg: 8 15 30; --accent: 251 191 36;
+    --ring: 56 189 248; --ok: 52 211 153; --warn: 251 191 36; --danger: 248 113 113;
+    --radius: 10px;
+    --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px rgb(0 0 0 / 0.45);
+  }
+  [data-theme="hivis"] {
+    color-scheme: dark;
+    --bg: 10 10 12; --surface: 0 0 0; --surface-2: 28 28 30;
+    --fg: 250 250 250; --muted: 212 212 216; --line: 250 204 21;
+    --primary: 250 204 21; --primary-fg: 0 0 0; --accent: 34 197 94;
+    --ring: 250 204 21; --ok: 34 197 94; --warn: 249 115 22; --danger: 239 68 68;
+    --radius: 6px;
+    --shadow: 0 0 0 1px rgb(250 204 21 / 0.25);
+  }
+  * { border-color: rgb(var(--line)); }
+  body { background: rgb(var(--bg)); color: rgb(var(--fg)); -webkit-font-smoothing: antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+    transition: background-color .2s ease, color .2s ease; }
+</style>
+<style type="text/tailwindcss">
+  @layer components {
+    .field { @apply w-full rounded border border-line bg-surface px-3 py-2.5 text-base text-fg placeholder:text-muted outline-none transition focus:border-primary focus:ring-2 ring-ring/40; }
+    .btn-primary { @apply inline-flex items-center justify-center gap-2 rounded px-4 py-2.5 text-sm font-semibold transition bg-primary text-primary-fg shadow-card hover:opacity-90 active:scale-[0.99] disabled:opacity-50; }
+    .btn-ghost { @apply inline-flex items-center justify-center gap-2 rounded px-4 py-2.5 text-sm font-semibold transition border border-line bg-surface text-fg hover:bg-surface-2 active:scale-[0.99] disabled:opacity-50; }
+    .card { @apply rounded-lg border border-line bg-surface shadow-card; }
+    .label { @apply grid gap-1.5 text-sm font-medium text-muted; }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ============================================================
+   アイコン（本物の Icon.tsx の PATHS をそのまま使用）
+   ============================================================ */
+const ICONS = {
+  home: "M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10",
+  projects: "M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5M9 10h.01M15 10h.01",
+  report: "M9 3h6l3 3v15H6V3h3zM9 3v3h6V3M8 11h8M8 15h8M8 19h5",
+  masters: "M16 21v-2a4 4 0 0 0-8 0v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+  logout: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9",
+  palette: "M12 21a9 9 0 1 1 0-18c4.97 0 9 3.58 9 8 0 2.21-1.79 4-4 4h-2a2 2 0 0 0-1.4 3.4A2 2 0 0 1 12 21zM7.5 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM12 7.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM16.5 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2z",
+  check: "M20 6L9 17l-5-5",
+  chevron: "M9 18l6-6-6-6",
+  plus: "M12 5v14M5 12h14",
+  back: "M19 12H5M12 19l-7-7 7-7",
+  car: "M5 13l1.5-4.5A2 2 0 0 1 8.4 7h7.2a2 2 0 0 1 1.9 1.5L19 13M5 13h14v4H5v-4zM7 17v2M17 17v2M7.5 15h.01M16.5 15h.01",
+  clock: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2",
+  menu: "M4 6h16M4 12h16M4 18h16",
+  users: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75",
+  upload: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12",
+  file: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 2v6h6",
+  link: "M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5",
+  shield: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+  trash: "M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6",
+  calendar: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z",
+  search: "M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35",
+  bell: "M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0",
+  estimate: "M9 2h6a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM9 6h6M9 10h6M9 14h4M12 17v2",
+  invoice: "M6 2h9l3 3v15a1 1 0 0 1-1.4.9L15 20l-1.6.9a1 1 0 0 1-1 0L11 20l-1.4.9a1 1 0 0 1-1 0L7 20l-1.6.9A1 1 0 0 1 4 20V4a2 2 0 0 1 2-2zM8 8h6M8 12h6",
+  payroll: "M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+  box: "M21 8l-9-5-9 5v8l9 5 9-5V8zM3 8l9 5 9-5M12 13v8",
+  help: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 2.2-2.4 3.7M12 17h.01",
+};
+function icon(name, cls = "h-5 w-5") {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="${cls}" aria-hidden="true"><path d="${ICONS[name] || ""}"/></svg>`;
+}
+
+/* ============================================================
+   ナビ定義（本物の lib/nav.ts から移植・デモ対象に印）
+   ============================================================ */
+const NAV_GROUPS = [
+  { label: "", key: "top", items: [{ href: "dashboard", label: "ダッシュボード", icon: "home" }] },
+  { label: "工事管理", key: "project", items: [
+    { href: "projects", label: "工事一覧", icon: "projects" },
+    { href: "calendar", label: "予定表", icon: "calendar" },
+    { href: "assignments", label: "配置計画", icon: "users" },
+    { href: "daily-new", label: "日報入力", icon: "report" },
+    { href: "equipment", label: "機材貸借", icon: "box" },
+  ]},
+  { label: "経理", key: "finance", items: [
+    { href: "estimates", label: "見積", icon: "estimate" },
+    { href: "invoices", label: "請求", icon: "invoice" },
+    { href: "payroll", label: "給与計算", icon: "payroll" },
+    { href: "work-matrix", label: "稼働一覧", icon: "calendar" },
+  ]},
+  { label: "設定", key: "settings", items: [
+    { href: "daily-list", label: "稼働データ修正", icon: "report" },
+    { href: "members", label: "メンバー", icon: "users" },
+    { href: "masters", label: "マスタ", icon: "masters" },
+    { href: "templates", label: "明細テンプレート", icon: "estimate" },
+    { href: "report-templates", label: "帳票テンプレート", icon: "file" },
+    { href: "line", label: "LINE連携", icon: "link" },
+    { href: "audit", label: "監査ログ", icon: "shield" },
+  ]},
+];
+// 実装済みのデモ画面（それ以外はプレースホルダ）
+const BUILT = new Set(["dashboard", "projects", "daily-new", "daily-list", "estimates", "invoices", "payroll"]);
+
+/* ============================================================
+   ステータス（本物の StatusBadge / types から移植）
+   ============================================================ */
+const STATUS_HUE = {
+  "注文受": "#94a3b8", "見積書作成": "#f59e0b", "受注": "#3b82f6", "工事中": "#6366f1",
+  "工事終了": "#a855f7", "請求書作成": "#f97316", "入金": "#22c55e", "失注": "#ef4444",
+};
+const STATUS_ORDER = ["注文受", "見積書作成", "受注", "工事中", "工事終了", "請求書作成", "入金"];
+function statusBadge(s, size = "sm") {
+  const sz = size === "sm" ? "px-2 py-0.5 text-[11px]" : "px-2.5 py-1 text-xs";
+  return `<span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 font-medium text-fg ${sz}">
+    <span class="h-2 w-2 rounded-full" style="background:${STATUS_HUE[s]}"></span>${s}</span>`;
+}
+const yen = (n) => n == null ? "—" : "¥" + Number(n).toLocaleString("ja-JP");
+
+/* ============================================================
+   サンプルデータ（実在の顧客・金額ではない）
+   ============================================================ */
+const COMPANY = "サンプル建設（デモ）";
+const EMPLOYEES = [
+  { id: "e1", name: "山田 太郎", rank: "親方" },
+  { id: "e2", name: "佐藤 健",   rank: "職長" },
+  { id: "e3", name: "鈴木 一郎", rank: "一般" },
+  { id: "e4", name: "田中 誠",   rank: "一般" },
+  { id: "e5", name: "高橋 実",   rank: "応援" },
+  { id: "e6", name: "渡辺 剛",   rank: "見習い" },
+];
+const CUSTOMERS = ["丸新工務店", "みなと建設", "東和興業", "第一住宅", "ヤマト建機"];
+const PROJECTS = [
+  { id:"p1", name:"中央マンション 外壁改修足場", loc:"東京都江東区",   status:"工事中",     amount:4800000, cust:"丸新工務店", dot:"blue",  tags:["足場","改修"] },
+  { id:"p2", name:"市川ビル 解体足場",           loc:"千葉県市川市",   status:"受注",       amount:2300000, cust:"みなと建設", dot:"blue",  tags:["解体"] },
+  { id:"p3", name:"桜井邸 新築足場",             loc:"東京都江戸川区", status:"見積書作成", amount:850000,  cust:"第一住宅",   dot:"none",  tags:["新築","戸建"] },
+  { id:"p4", name:"湾岸倉庫 改修足場",           loc:"神奈川県川崎市", status:"請求書作成", amount:3200000, cust:"東和興業",   dot:"done",  tags:["改修"] },
+  { id:"p5", name:"緑町小学校 外構足場",         loc:"埼玉県さいたま市",status:"工事終了",  amount:6100000, cust:"丸新工務店", dot:"done",  tags:["公共","外構"] },
+  { id:"p6", name:"駅前店舗 内装足場",           loc:"東京都墨田区",   status:"注文受",     amount:1200000, cust:"ヤマト建機", dot:"none",  tags:["内装"] },
+  { id:"p7", name:"大田橋梁 補修足場",           loc:"東京都大田区",   status:"工事中",     amount:9800000, cust:"東和興業",   dot:"red",   tags:["公共","橋梁"] },
+  { id:"p8", name:"品川工場 メンテ足場",         loc:"東京都品川区",   status:"受注",       amount:2750000, cust:"みなと建設", dot:"blue",  tags:["メンテ"] },
+];
+const DOT_CLASS = { red:"bg-red-500", blue:"bg-blue-500", done:"bg-emerald-300", green:"bg-emerald-500", gray:"bg-gray-400" };
+const DOT_LABEL = { red:"遅れ", blue:"作業中", done:"作業完了", green:"請求完了", gray:"全完了" };
+const REPORTS = [
+  { id:"r1", date:"2026-06-01", emp:"e1", proj:"p1", st:"08:00", et:"17:00", brk:60, car:1 },
+  { id:"r2", date:"2026-06-01", emp:"e3", proj:"p1", st:"08:00", et:"17:30", brk:60, car:0 },
+  { id:"r3", date:"2026-06-02", emp:"e2", proj:"p7", st:"08:00", et:"19:00", brk:60, car:1 },
+  { id:"r4", date:"2026-06-02", emp:"e4", proj:"p7", st:"08:00", et:"17:00", brk:60, car:0 },
+  { id:"r5", date:"2026-06-03", emp:"e5", proj:"p2", st:"09:00", et:"17:00", brk:45, car:1 },
+  { id:"r6", date:"2026-06-03", emp:"e1", proj:"p1", st:"08:00", et:"17:00", brk:60, car:1 },
+];
+const PAYROLL = [
+  { emp:"e1", days:21, wage:441000, adj:0,     car:21000 },
+  { emp:"e2", days:20, wage:380000, adj:5000,  car:16000 },
+  { emp:"e3", days:22, wage:330000, adj:0,     car:0 },
+  { emp:"e4", days:19, wage:285000, adj:-3000, car:0 },
+  { emp:"e5", days:8,  wage:120000, adj:0,     car:8000 },
+];
+const ESTIMATES = [
+  { no:"Q-2026-0042", proj:"中央マンション 外壁改修足場", cust:"丸新工務店", amount:4800000, date:"2026-05-28", status:"受注済" },
+  { no:"Q-2026-0041", proj:"市川ビル 解体足場",          cust:"みなと建設", amount:2300000, date:"2026-05-25", status:"受注済" },
+  { no:"Q-2026-0040", proj:"桜井邸 新築足場",            cust:"第一住宅",   amount:850000,  date:"2026-05-22", status:"提出済" },
+  { no:"Q-2026-0039", proj:"駅前店舗 内装足場",          cust:"ヤマト建機", amount:1200000, date:"2026-05-20", status:"作成中" },
+  { no:"Q-2026-0038", proj:"品川工場 メンテ足場",        cust:"みなと建設", amount:2750000, date:"2026-05-18", status:"受注済" },
+];
+const INVOICES = [
+  { no:"INV-2026-0021", proj:"湾岸倉庫 改修足場",   cust:"東和興業",   amount:3200000, date:"2026-06-05", status:"issued" },
+  { no:"INV-2026-0020", proj:"緑町小学校 外構足場", cust:"丸新工務店", amount:6100000, date:"2026-06-03", status:"issued" },
+  { no:"INV-2026-0019", proj:"大田橋梁 補修足場",   cust:"東和興業",   amount:4900000, date:"2026-05-31", status:"paid" },
+  { no:"INV-2026-0018", proj:"中央マンション 外壁改修足場", cust:"丸新工務店", amount:2400000, date:"2026-05-28", status:"draft" },
+];
+const INV_STATUS = { draft:{l:"下書き",c:"#94a3b8"}, issued:{l:"発行済",c:"#f97316"}, paid:{l:"入金済",c:"#22c55e"} };
+const empName = (id) => (EMPLOYEES.find(e => e.id === id) || {}).name || "";
+const projName = (id) => (PROJECTS.find(p => p.id === id) || {}).name || "";
+
+/* ============================================================
+   画面テンプレート
+   ============================================================ */
+function pageHead(title, sub, right = "") {
+  return `<div class="flex flex-wrap items-end justify-between gap-3">
+    <div><h1 class="text-2xl font-bold tracking-tight">${title}</h1>
+    <p class="mt-1 text-sm text-muted">${sub}</p></div>
+    ${right ? `<div class="flex flex-wrap items-center gap-2">${right}</div>` : ""}
+  </div>`;
+}
+
+const SCREENS = {
+  dashboard() {
+    const active = PROJECTS.filter(p => p.status === "工事中" || p.status === "受注").length;
+    const unpaid = PROJECTS.filter(p => p.status === "請求書作成" || p.status === "工事終了").length;
+    const stats = [
+      { label:"工事 総数", value:PROJECTS.length, icon:"projects" },
+      { label:"進行中", value:active, icon:"clock" },
+      { label:"未入金", value:unpaid, icon:"report" },
+      { label:"今月の日報", value:REPORTS.length, icon:"report" },
+      { label:"社員数", value:EMPLOYEES.length, icon:"masters" },
+    ];
+    const qa = (href, ic, t, d) => `<a data-nav="${href}" class="card group flex cursor-pointer items-center gap-3 p-4 transition hover:border-primary">
+      <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary transition group-hover:bg-primary group-hover:text-primary-fg">${icon(ic)}</span>
+      <span><span class="block text-sm font-semibold">${t}</span><span class="block text-xs text-muted">${d}</span></span></a>`;
+    return `<div class="grid gap-6">
+      <div><h1 class="text-2xl font-bold tracking-tight">ダッシュボード</h1><p class="mt-1 text-sm text-muted">現場の状況をひと目で。</p></div>
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        ${stats.map(s => `<div class="card p-4"><div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-muted">${s.label}</span>${icon(s.icon, "h-4 w-4 text-muted")}</div>
+          <p class="mt-2 text-3xl font-bold tabular-nums">${s.value}</p></div>`).join("")}
+      </div>
+      <div class="grid gap-3 sm:grid-cols-3">
+        ${qa("projects","plus","新規工事","工事を登録して進捗管理")}
+        ${qa("daily-new","report","日報入力","稼働時間・車数を記録")}
+        ${qa("masters","masters","マスタ管理","社員・顧客を編集")}
+      </div>
+      <section class="card overflow-hidden">
+        <div class="flex items-center justify-between border-b border-line px-4 py-3">
+          <h2 class="text-sm font-semibold">最近の工事</h2>
+          <a data-nav="projects" class="cursor-pointer text-xs font-medium text-primary hover:underline">すべて表示</a></div>
+        <ul class="divide-y divide-line">${PROJECTS.slice(0,6).map(p => `<li>
+          <a data-nav="projects" class="flex cursor-pointer items-center gap-3 px-4 py-3 transition hover:bg-surface-2">
+            <div class="min-w-0 flex-1"><p class="truncate font-medium">${p.name}</p>
+            <p class="truncate text-xs text-muted">${p.loc}</p></div>
+            ${statusBadge(p.status)}${icon("chevron","h-4 w-4 text-muted")}</a></li>`).join("")}</ul>
+      </section>
+      <div class="flex flex-wrap gap-x-4 gap-y-2 text-xs text-muted">${STATUS_ORDER.map(s => statusBadge(s)).join("")}</div>
+    </div>`;
+  },
+
+  projects() {
+    const counts = STATUS_ORDER.map(s => ({ s, n: PROJECTS.filter(p => p.status === s).length })).filter(x => x.n > 0);
+    const legend = Object.keys(DOT_CLASS).map(k =>
+      `<span class="inline-flex items-center gap-1"><span class="h-2 w-2 rounded-full ${DOT_CLASS[k]}"></span>${DOT_LABEL[k]}</span>`).join("");
+    return `<div class="grid gap-6">
+      ${pageHead("工事管理", `全 ${PROJECTS.length} 件。日付を入力すると状況区分が自動で進みます。`)}
+      <div class="flex flex-wrap gap-2">${counts.map(c =>
+        `<span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-xs">
+          ${statusBadge(c.s)}<span class="font-semibold tabular-nums">${c.n}</span></span>`).join("")}</div>
+      <section class="card p-4">
+        <div class="grid gap-3">
+          <div class="flex flex-wrap items-end gap-3">
+            <label class="label flex-1 min-w-56">フリーワード<input placeholder="工事名・場所・顧客名" class="field" /></label>
+            <label class="label w-44">工種<select class="field"><option>すべて</option><option>足場</option><option>解体</option><option>改修</option></select></label>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+            ${STATUS_ORDER.map(s => `<label class="inline-flex items-center gap-1.5 text-xs"><input type="checkbox" class="h-3.5 w-3.5" />${s}</label>`).join("")}
+            <span class="ml-auto"></span>
+            <button class="btn-primary h-9 px-4 text-sm">${icon("search","h-4 w-4")}絞り込み</button>
+          </div>
+        </div>
+      </section>
+      <div class="grid gap-6 lg:grid-cols-[1fr_20rem] lg:items-start">
+        <section class="card overflow-hidden lg:order-1">
+          <div class="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-line px-4 py-2 text-[10px] text-muted">${legend}<span>（受注表タスクのある工事のみ）</span></div>
+          <ul class="divide-y divide-line">${PROJECTS.map(p => `<li>
+            <a data-nav="projects" class="flex cursor-pointer items-center gap-3 px-4 py-3.5 transition hover:bg-surface-2">
+              ${p.dot !== "none" ? `<span title="${DOT_LABEL[p.dot]}" class="h-2.5 w-2.5 shrink-0 rounded-full ${DOT_CLASS[p.dot]}"></span>` : ""}
+              <div class="min-w-0 flex-1"><p class="truncate font-medium">${p.name}</p>
+                <p class="truncate text-xs text-muted">${p.loc} ・ ${p.cust} ・ 希望 ${yen(p.amount)}</p>
+                <p class="mt-1 flex flex-wrap gap-1">${p.tags.map(t => `<span class="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] text-muted">${t}</span>`).join("")}</p>
+              </div>${statusBadge(p.status)}${icon("chevron","h-4 w-4 shrink-0 text-muted")}</a></li>`).join("")}</ul>
+        </section>
+        <section class="card p-4 lg:order-2 lg:sticky lg:top-20">
+          <h2 class="mb-3 flex items-center gap-2 text-sm font-semibold">${icon("plus","h-4 w-4 text-primary")}新規工事</h2>
+          <div class="grid gap-3">
+            <label class="label">工事名<input placeholder="例: ○○邸 外壁足場" class="field" /></label>
+            <label class="label">工事場所<input placeholder="例: 東京都江東区" class="field" /></label>
+            <label class="label">顧客<select class="field"><option>選択（任意）</option>${CUSTOMERS.map(c => `<option>${c}</option>`).join("")}</select></label>
+            <label class="label">希望金額<input type="number" placeholder="0" class="field" /></label>
+            <button class="btn-primary mt-1">${icon("plus","h-4 w-4")}追加する</button>
+          </div>
+        </section>
+      </div>
+    </div>`;
+  },
+
+  "daily-new"() {
+    return `<div class="mx-auto grid max-w-lg gap-5">
+      ${pageHead("日報入力", "稼働時間・車数を記録します。",
+        `<button data-nav="daily-list" class="btn-ghost h-9 shrink-0 px-3 text-sm">${icon("report","h-4 w-4")}稼働修正</button>`)}
+      <p class="flex items-center gap-2 rounded-lg border border-ok/30 bg-ok/10 px-3 py-2.5 text-sm font-medium text-ok">${icon("check","h-4 w-4")}登録しました。続けて入力できます。</p>
+      <section class="card p-5">
+        <div class="grid gap-4">
+          <label class="label">日付<input type="date" value="2026-06-03" class="field" /></label>
+          <label class="label">社員<select class="field">${EMPLOYEES.map(e => `<option>${e.name}</option>`).join("")}</select></label>
+          <label class="label">工事<select class="field"><option>工事なし</option>${PROJECTS.map(p => `<option>${p.name}</option>`).join("")}</select></label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="label">開始<input type="time" value="08:00" class="field" /></label>
+            <label class="label">終了<input type="time" value="17:00" class="field" /></label>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="label">休憩（分）<input inputmode="numeric" value="60" class="field text-right" /></label>
+            <label class="label">車（台）<input inputmode="numeric" value="1" class="field text-right" /></label>
+          </div>
+          <button class="btn-primary mt-1">${icon("check","h-4 w-4")}登録する</button>
+        </div>
+      </section>
+      <p class="text-xs text-muted">現場の職人はスマホのLINE（LIFF）からこの画面を開き、その場で入力します。</p>
+    </div>`;
+  },
+
+  "daily-list"() {
+    const sel = (cur, list, none) => `<select class="field h-9 w-40 py-0 text-sm"><option>${none}</option>${list.map(x => `<option ${x === cur ? "selected" : ""}>${x}</option>`).join("")}</select>`;
+    return `<div class="grid gap-6">
+      ${pageHead("稼働データ修正", "登録済みの日報を月ごとに確認・修正・削除します。",
+        `<button data-nav="daily-new" class="btn-ghost h-9 px-3 text-sm">${icon("plus","h-4 w-4")}日報入力へ</button>`)}
+      <div class="flex flex-wrap items-center gap-3">
+        <button class="btn-ghost h-9 px-3 text-sm">${icon("back","h-4 w-4")}前月</button>
+        <span class="text-sm font-semibold">2026-06</span>
+        <button class="btn-ghost h-9 px-3 text-sm">翌月${icon("chevron","h-4 w-4")}</button>
+        <div class="ml-auto flex items-center gap-2">
+          <select class="field h-9 w-44 py-0 text-sm"><option>全社員</option>${EMPLOYEES.map(e => `<option>${e.name}</option>`).join("")}</select>
+          <button class="btn-ghost h-9 px-3 text-sm">絞り込み</button>
+        </div>
+      </div>
+      <section class="card overflow-hidden">
+        <div class="overflow-x-auto"><table class="w-full text-sm">
+          <thead class="border-b border-line text-xs text-muted"><tr>
+            <th class="px-3 py-2 text-left font-medium">日付</th><th class="px-2 py-2 text-left font-medium">社員</th>
+            <th class="px-2 py-2 text-left font-medium">工事</th><th class="px-2 py-2 text-left font-medium">開始</th>
+            <th class="px-2 py-2 text-left font-medium">終了</th><th class="px-2 py-2 text-right font-medium">休憩</th>
+            <th class="px-2 py-2 text-right font-medium">車</th><th class="px-3 py-2 text-right font-medium">操作</th></tr></thead>
+          <tbody class="divide-y divide-line">${REPORTS.map(r => `<tr><td class="px-3 py-2" colspan="8">
+            <div class="flex flex-wrap items-center gap-2">
+              <input type="date" value="${r.date}" class="field h-9 w-36 py-0 text-sm" />
+              ${sel(empName(r.emp), EMPLOYEES.map(e => e.name), "社員なし")}
+              ${sel(projName(r.proj), PROJECTS.map(p => p.name), "工事なし")}
+              <input type="time" value="${r.st}" class="field h-9 w-28 py-0 text-sm" />
+              <input type="time" value="${r.et}" class="field h-9 w-28 py-0 text-sm" />
+              <input value="${r.brk}" class="field h-9 w-16 py-0 text-right text-sm" />
+              <input value="${r.car}" class="field h-9 w-14 py-0 text-right text-sm" />
+              <button class="btn-ghost h-9 px-3 text-sm">${icon("check","h-4 w-4")}更新</button>
+              <button class="btn-ghost h-9 px-3 text-sm text-danger">${icon("trash","h-3.5 w-3.5")}削除</button>
+            </div></td></tr>`).join("")}</tbody>
+        </table></div>
+      </section>
+    </div>`;
+  },
+
+  estimates() {
+    const stClass = { "受注済":"#22c55e", "提出済":"#f97316", "作成中":"#94a3b8" };
+    return `<div class="grid gap-6">
+      ${pageHead("見積", "見積書の作成・PDF/Excel出力・受注への引き上げ。",
+        `<button class="btn-primary h-9 px-4 text-sm">${icon("plus","h-4 w-4")}新規見積</button>`)}
+      <section class="card overflow-hidden"><div class="overflow-x-auto"><table class="w-full text-sm">
+        <thead class="border-b border-line text-xs text-muted"><tr>
+          <th class="px-4 py-2 text-left font-medium">見積番号</th><th class="px-2 py-2 text-left font-medium">工事</th>
+          <th class="px-2 py-2 text-left font-medium">顧客</th><th class="px-2 py-2 text-right font-medium">金額（税抜）</th>
+          <th class="px-2 py-2 text-left font-medium">発行日</th><th class="px-2 py-2 text-left font-medium">状態</th>
+          <th class="px-4 py-2 text-right font-medium">操作</th></tr></thead>
+        <tbody class="divide-y divide-line">${ESTIMATES.map(e => `<tr class="hover:bg-surface-2">
+          <td class="px-4 py-2.5 font-mono text-xs">${e.no}</td><td class="px-2 py-2.5 font-medium">${e.proj}</td>
+          <td class="px-2 py-2.5 text-muted">${e.cust}</td><td class="px-2 py-2.5 text-right tabular-nums">${yen(e.amount)}</td>
+          <td class="px-2 py-2.5 text-muted">${e.date}</td>
+          <td class="px-2 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-2 py-0.5 text-[11px] font-medium">
+            <span class="h-2 w-2 rounded-full" style="background:${stClass[e.status]}"></span>${e.status}</span></td>
+          <td class="px-4 py-2.5 text-right"><button class="text-xs text-primary hover:underline">${icon("file","inline h-3.5 w-3.5")} PDF</button></td></tr>`).join("")}</tbody>
+      </table></div></section>
+      <p class="text-xs text-muted">明細はテンプレートから呼び出して素早く作成。出来高（分割）請求にも対応します。</p>
+    </div>`;
+  },
+
+  invoices() {
+    return `<div class="grid gap-6">
+      ${pageHead("請求", "請求書の発行・入金管理。出来高請求は「契約額×累計率−前回」で自動計算。",
+        `<button class="btn-primary h-9 px-4 text-sm">${icon("plus","h-4 w-4")}新規請求</button>`)}
+      <section class="card overflow-hidden"><div class="overflow-x-auto"><table class="w-full text-sm">
+        <thead class="border-b border-line text-xs text-muted"><tr>
+          <th class="px-4 py-2 text-left font-medium">請求番号</th><th class="px-2 py-2 text-left font-medium">工事</th>
+          <th class="px-2 py-2 text-left font-medium">顧客</th><th class="px-2 py-2 text-right font-medium">請求額</th>
+          <th class="px-2 py-2 text-left font-medium">発行日</th><th class="px-2 py-2 text-left font-medium">状態</th>
+          <th class="px-4 py-2 text-right font-medium">操作</th></tr></thead>
+        <tbody class="divide-y divide-line">${INVOICES.map(v => { const s = INV_STATUS[v.status]; return `<tr class="hover:bg-surface-2">
+          <td class="px-4 py-2.5 font-mono text-xs">${v.no}</td><td class="px-2 py-2.5 font-medium">${v.proj}</td>
+          <td class="px-2 py-2.5 text-muted">${v.cust}</td><td class="px-2 py-2.5 text-right tabular-nums">${yen(v.amount)}</td>
+          <td class="px-2 py-2.5 text-muted">${v.date}</td>
+          <td class="px-2 py-2.5"><span class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-2 py-0.5 text-[11px] font-medium">
+            <span class="h-2 w-2 rounded-full" style="background:${s.c}"></span>${s.l}</span></td>
+          <td class="px-4 py-2.5 text-right"><button class="text-xs text-primary hover:underline">${icon("file","inline h-3.5 w-3.5")} PDF</button></td></tr>`; }).join("")}</tbody>
+      </table></div></section>
+    </div>`;
+  },
+
+  payroll() {
+    const rows = PAYROLL.map(r => ({ ...r, total: r.wage + r.adj + r.car }));
+    const g = rows.reduce((s, r) => ({ wage:s.wage+r.wage, adj:s.adj+r.adj, car:s.car+r.car, total:s.total+r.total }), { wage:0, adj:0, car:0, total:0 });
+    const ye = (n) => "¥" + Math.round(n).toLocaleString("ja-JP");
+    const right = ["PDF","給与一覧Excel","勤怠表Excel","工事別集計","単価マスタ","手当マスタ"]
+      .map(t => `<button class="btn-ghost h-9 px-3 text-sm">${icon("payroll","h-4 w-4")}${t}</button>`).join("");
+    return `<div class="grid gap-6">
+      ${pageHead("給与計算", "日給月給（定額日給＋調整金＋車代）で集計（2026-06）", right)}
+      <div class="flex items-center gap-2">
+        <button class="btn-ghost h-9 px-3 text-sm">${icon("back","h-4 w-4")}前月</button>
+        <input type="month" value="2026-06" class="field h-9 w-40 py-0 text-sm" />
+        <button class="btn-ghost h-9 px-3 text-sm">表示</button>
+        <button class="btn-ghost h-9 px-3 text-sm">翌月${icon("chevron","h-4 w-4")}</button>
+      </div>
+      <section class="card overflow-hidden"><div class="overflow-x-auto"><table class="w-full text-sm">
+        <thead class="border-b border-line text-xs text-muted"><tr>
+          <th class="px-4 py-2 text-left font-medium">社員</th><th class="px-2 py-2 text-left font-medium">職性</th>
+          <th class="px-2 py-2 text-right font-medium">出勤日数</th><th class="px-2 py-2 text-right font-medium">定額日給</th>
+          <th class="px-2 py-2 text-right font-medium">調整金</th><th class="px-2 py-2 text-right font-medium">車代</th>
+          <th class="px-4 py-2 text-right font-medium">合計</th><th class="px-2 py-2"></th></tr></thead>
+        <tbody class="divide-y divide-line">${rows.map(r => `<tr>
+          <td class="px-4 py-2 font-medium">${empName(r.emp)}</td>
+          <td class="px-2 py-2 text-muted">${(EMPLOYEES.find(e=>e.id===r.emp)||{}).rank||""}</td>
+          <td class="px-2 py-2 text-right tabular-nums">${r.days}日</td>
+          <td class="px-2 py-2 text-right tabular-nums">${ye(r.wage)}</td>
+          <td class="px-2 py-2 text-right tabular-nums">${ye(r.adj)}</td>
+          <td class="px-2 py-2 text-right tabular-nums">${ye(r.car)}</td>
+          <td class="px-4 py-2 text-right font-bold tabular-nums">${ye(r.total)}</td>
+          <td class="px-2 py-2 text-right"><button class="text-xs text-primary hover:underline">勤怠表</button></td></tr>`).join("")}</tbody>
+        <tfoot class="border-t border-line"><tr class="font-bold">
+          <td class="px-4 py-2" colspan="3">合計</td>
+          <td class="px-2 py-2 text-right tabular-nums">${ye(g.wage)}</td>
+          <td class="px-2 py-2 text-right tabular-nums">${ye(g.adj)}</td>
+          <td class="px-2 py-2 text-right tabular-nums">${ye(g.car)}</td>
+          <td class="px-4 py-2 text-right tabular-nums">${ye(g.total)}</td><td class="px-2 py-2"></td></tr></tfoot>
+      </table></div></section>
+      <p class="text-xs text-muted">日給月給モード: 1日あたり「定額日給 ＋ 調整金額 ＋ 車代（車回数×車単価）」で支給。定額日給・車単価は社員マスタ（管理者）、調整金額は各社員の勤怠表で日ごとに入力できます。時間帯按分・職性別時給のモードにも切り替え可能です。</p>
+    </div>`;
+  },
+
+  _placeholder(label) {
+    return `<div class="grid gap-6">${pageHead(label, "この機能はデモ未収録です。実装は本番アプリに含まれています。")}
+      <div class="card px-4 py-20 text-center">
+        <div class="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-full bg-surface-2 text-muted">${icon("box","h-6 w-6")}</div>
+        <p class="text-sm text-muted">「${label}」画面は本番アプリに実装済みですが、このデモには未収録です。<br>左メニューの<span class="font-medium text-fg">ダッシュボード / 工事一覧 / 日報入力 / 稼働データ修正 / 見積 / 請求 / 給与計算</span>をお試しください。</p>
+      </div></div>`;
+  },
+};
+
+/* ============================================================
+   レイアウト & ルーティング
+   ============================================================ */
+const THEMES = [
+  { id:"solid", label:"ゲンバ・ソリッド" }, { id:"saas", label:"モダンSaaS" },
+  { id:"night", label:"ナイトシフト" }, { id:"hivis", label:"現場ハイビズ" },
+];
+let current = "dashboard";
+
+function navHtml() {
+  return NAV_GROUPS.map(g => {
+    const items = g.items.map(it => {
+      const act = it.href === current;
+      const dim = BUILT.has(it.href) ? "" : "opacity-60";
+      return `<a data-nav="${it.href}" class="flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition ${dim} ${
+        act ? "bg-primary text-primary-fg shadow-card" : "text-muted hover:bg-surface-2 hover:text-fg"}">
+        ${icon(it.icon, "h-5 w-5 shrink-0")}${it.label}</a>`;
+    }).join("");
+    if (!g.label) return items;
+    const hasActive = g.items.some(it => it.href === current);
+    return `<div><div class="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold uppercase tracking-wider ${hasActive ? "text-primary" : "text-muted"}">
+      <span class="flex-1 text-left">${g.label}</span></div>
+      <div class="ml-1 grid gap-0.5">${items}</div></div>`;
+  }).join("");
+}
+
+function render() {
+  const fn = SCREENS[current] || (() => SCREENS._placeholder((NAV_GROUPS.flatMap(g=>g.items).find(i=>i.href===current)||{}).label || "画面"));
+  const content = current && BUILT.has(current) ? fn() : SCREENS._placeholder((NAV_GROUPS.flatMap(g=>g.items).find(i=>i.href===current)||{}).label || "画面");
+  document.getElementById("app").innerHTML = `
+    <div class="min-h-screen">
+      <div class="bg-primary/10 px-4 py-1.5 text-center text-xs text-primary">
+        これは <b>ゲンバノ</b> の画面デモです（サンプルデータ・操作は保存されません）。テーマ切替やメニュー遷移をお試しいただけます。
+      </div>
+      <header class="sticky top-0 z-30 border-b border-line bg-surface/90 backdrop-blur">
+        <div class="mx-auto flex h-14 max-w-content items-center gap-3 px-4">
+          <a data-nav="dashboard" class="flex min-w-0 cursor-pointer items-center gap-2">
+            <span class="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-primary text-primary-fg shadow-card">${icon("home","h-5 w-5")}</span>
+            <span class="flex min-w-0 flex-col leading-tight">
+              <span class="whitespace-nowrap text-base font-bold tracking-tight">ゲンバノ</span>
+              <span class="truncate text-[11px] text-muted sm:hidden">${COMPANY}</span></span></a>
+          <span class="hidden min-w-0 flex-1 truncate border-l border-line pl-3 text-sm text-muted sm:inline">${COMPANY}</span>
+          <div class="ml-auto flex items-center gap-2">
+            <select id="themeSel" class="field h-9 w-auto py-0 text-sm">${THEMES.map(t => `<option value="${t.id}">${t.label}</option>`).join("")}</select>
+            <button class="btn-ghost !px-3" title="使い方ガイド">${icon("help","h-5 w-5")}</button>
+            <button class="btn-ghost !px-3" title="通知">${icon("bell","h-5 w-5")}</button>
+            <button class="btn-ghost !px-3" title="ログアウト">${icon("logout","h-5 w-5")}<span class="hidden text-xs font-medium sm:inline">ログアウト</span></button>
+          </div>
+        </div>
+      </header>
+      <div class="mx-auto flex max-w-content gap-6 px-4 py-6">
+        <aside class="hidden w-56 shrink-0 lg:block"><div class="sticky top-20"><nav class="grid gap-0.5">${navHtml()}</nav></div></aside>
+        <main class="min-w-0 flex-1">${content}</main>
+      </div>
+    </div>`;
+
+  // イベント結線
+  document.querySelectorAll("[data-nav]").forEach(el => el.addEventListener("click", () => {
+    current = el.getAttribute("data-nav");
+    location.hash = current;
+    window.scrollTo(0, 0);
+    render();
+  }));
+  const sel = document.getElementById("themeSel");
+  sel.value = document.documentElement.dataset.theme || "solid";
+  sel.addEventListener("change", () => { document.documentElement.dataset.theme = sel.value; });
+}
+
+// 初期表示（ハッシュ復元）
+const hash = location.hash.replace("#", "");
+if (hash) current = hash;
+render();
+</script>
+</body>
+</html>
