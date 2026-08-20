@@ -1,369 +1,555 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="robots" content="noindex, nofollow" />
-<title>hryoma1217 — Works</title>
-<meta name="description" content="hryoma1217 の制作物。Web アプリ・業務システム・LP の制作実績をまとめたポートフォリオ。" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>制作実績台帳 — hryoma1217</title>
+<meta name="description" content="実際に動いているものだけを載せた制作実績。業務システム、検証レポート、Webアプリ、デスクトップアプリ。各項に確かめられる数字と行き先を記載しています。">
+<meta name="theme-color" content="#e6e7e3">
+<meta property="og:title" content="制作実績台帳 — hryoma1217">
+<meta property="og:description" content="実際に動いているものだけを載せた制作実績。">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --paper: #f3efe6;
-    --paper-2: #ece7da;
-    --card: #fbfaf6;
-    --ink: #15130d;
-    --ink-2: #4a463b;
-    --ink-3: #8a8474;
-    --line: #d8d2c3;
-    --line-2: #c7c0ae;
-    --accent: #cf4326;
-    --accent-ink: #a8331b;
-    --maxw: 1200px;
-  }
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background-color: var(--paper);
-    /* faint paper grain to avoid flat templated look */
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-    color: var(--ink);
-    font-family: "Zen Kaku Gothic New", -apple-system, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-    line-height: 1.7;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; text-decoration: none; }
-  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
-  .serif { font-family: "Instrument Serif", "Zen Kaku Gothic New", serif; font-weight: 400; }
+/*
+  設計メモ
 
-  /* Top bar */
-  .topbar { border-bottom: 1px solid var(--line-2); }
-  .topbar .wrap { display: flex; align-items: baseline; justify-content: space-between; height: 60px; }
-  .topbar .mark { font-weight: 900; letter-spacing: -.01em; font-size: 1.05rem; }
-  .topbar .mark .dot { color: var(--accent); }
-  .topbar nav { display: flex; gap: 22px; font-size: .82rem; color: var(--ink-2); letter-spacing: .02em; }
-  .topbar nav a { padding-bottom: 2px; border-bottom: 1px solid transparent; }
-  .topbar nav a:hover { border-bottom-color: var(--ink); }
+  題材は「現場で毎日使われている業務システムを作って運用している人」。
+  そこから、見せ方を作品集ではなく **台帳** に寄せた。工事台帳・検査記録の
+  作法をそのまま借りている。各項に必ず実測値の欄があり、状態は朱の印で示す。
 
-  /* Masthead */
-  .masthead { padding: 64px 0 40px; }
-  .issue {
-    display: flex; align-items: center; gap: 14px;
-    font-size: .74rem; letter-spacing: .26em; text-transform: uppercase; color: var(--ink-3);
-    margin-bottom: 26px;
-  }
-  .issue .rule { flex: 1; height: 1px; background: var(--line-2); }
-  .issue .star { color: var(--accent); letter-spacing: 0; }
-  .masthead h1 {
-    margin: 0; font-weight: 900; letter-spacing: -.02em;
-    font-size: clamp(2.6rem, 7vw, 5.4rem); line-height: .98;
-  }
-  .masthead h1 em { font-style: normal; color: var(--accent); }
-  .masthead .serifline {
-    font-size: clamp(2.3rem, 6vw, 4.6rem); line-height: 1; display: block; margin-top: .12em;
-  }
-  .masthead .lead {
-    margin: 30px 0 0; max-width: 560px; color: var(--ink-2); font-size: 1.05rem;
-  }
-  .masthead .meta {
-    margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px 26px;
-    font-size: .82rem; color: var(--ink-3); letter-spacing: .02em;
-  }
-  .masthead .meta a { color: var(--accent-ink); border-bottom: 1px solid var(--line-2); }
-  .masthead .meta a:hover { border-bottom-color: var(--accent-ink); }
+  雑誌風の見出しやセリフ体は使わない。前の版がその形で、実績の中身より
+  体裁が前に出ていた。数字が主役になるように、見出しは角ゴシック、
+  実測値だけ等幅にして、色は朱の一色に絞る。
+*/
 
-  /* Section label */
-  .sectionhead {
-    display: flex; align-items: baseline; justify-content: space-between;
-    border-top: 2px solid var(--ink); padding-top: 12px; margin: 30px 0 22px;
-  }
-  .sectionhead .label { font-weight: 900; letter-spacing: .02em; font-size: 1.1rem; }
-  .sectionhead .count { font-size: .8rem; color: var(--ink-3); letter-spacing: .12em; }
+:root{
+  --paper:#e6e7e3;        /* 打ちっぱなしのコンクリート寄り */
+  --card:#ffffff;
+  --ink:#15181b;
+  --ink-2:#5b636c;
+  --ink-3:#878e95;
+  --rule:#ced2cb;
+  --rule-2:#aeb4ac;
+  --shu:#b93a2b;          /* 検査印の朱 */
+  --shu-bg:#f6e3df;
+  --grid:#d9dbd5;
 
-  /* Bento grid */
-  .bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
-  .tile {
-    position: relative; display: flex; flex-direction: column;
-    background: var(--card); border: 1px solid var(--line-2);
-    overflow: hidden; transition: transform .18s ease, border-color .18s ease;
-  }
-  .tile:hover { transform: translateY(-3px); border-color: var(--ink); }
-  .tile .pad { padding: 22px 24px; }
-  .tile .num {
-    font-size: 1.5rem; line-height: 1; color: var(--accent); margin-bottom: 14px;
-  }
-  .tile h3 { margin: 0 0 4px; font-size: 1.5rem; font-weight: 900; letter-spacing: -.01em; }
-  .tile h3 .en { font-size: .9rem; color: var(--ink-3); font-weight: 500; margin-left: 8px; letter-spacing: .04em; }
-  .tile .kicker { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
-  .tile p { margin: 0 0 16px; color: var(--ink-2); font-size: .94rem; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
-  .chip { font-size: .72rem; color: var(--ink-2); border: 1px solid var(--line-2); border-radius: 999px; padding: 3px 10px; letter-spacing: .02em; }
-  .links { display: flex; gap: 16px; margin-top: auto; }
-  .lnk {
-    display: inline-flex; align-items: center; gap: 6px; font-size: .86rem; font-weight: 700;
-    border-bottom: 2px solid var(--ink); padding-bottom: 2px;
-  }
-  .lnk.ghost { border-bottom-color: var(--line-2); color: var(--ink-2); font-weight: 500; }
-  .lnk:hover { border-bottom-color: var(--accent); color: var(--accent-ink); }
-  .lnk svg { transition: transform .18s ease; }
-  .tile:hover .lnk svg { transform: translateX(3px); }
+  --sans:"Zen Kaku Gothic New",system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 
-  .shot { width: 100%; display: block; border-top: 1px solid var(--line-2); background: #fff; }
-  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+  --wrap:1180px;
+}
 
-  /* Feature tile (genbano) */
-  .t-feature { grid-column: span 4; grid-row: span 2; }
-  .t-feature .shot { flex: 1; min-height: 230px; }
-  .t-feature .shot img { aspect-ratio: auto; height: 100%; min-height: 230px; }
-  /* Tall tile (mimamo) */
-  .t-tall { grid-column: span 2; grid-row: span 2; }
-  .t-tall .visual {
-    flex: 1; min-height: 370px; border-top: 1px solid var(--line-2);
-    position: relative; overflow: hidden; padding: 0;
-    background-color: #e9e2d4;
-    background-image:
-      radial-gradient(125% 88% at 50% 26%, rgba(20,14,8,0) 38%, rgba(35,24,15,.44) 100%),
-      linear-gradient(180deg, rgba(243,239,230,0) 52%, rgba(45,32,20,.32) 100%),
-      url("mimamo/assets/mimamo_hero.png");
-    background-size: cover; background-position: center; background-repeat: no-repeat;
-  }
-  .t-tall .visual .phone {
-    position: absolute; background: #15120e; border-radius: 24px; padding: 6px;
-    box-shadow: 0 24px 46px -14px rgba(25,16,8,.66), inset 0 0 0 1px rgba(255,255,255,.06);
-    transition: transform .18s ease;
-  }
-  .t-tall .visual .phone .screen {
-    position: relative; width: 100%; height: 100%; overflow: hidden;
-    border-radius: 19px; background: #f4ede2;
-  }
-  .t-tall .visual .phone .screen img {
-    width: 100%; height: auto; display: block; image-rendering: auto;
-  }
-  /* notch / speaker pill */
-  .t-tall .visual .phone .screen::before {
-    content: ""; position: absolute; top: 7px; left: 50%; transform: translateX(-50%);
-    width: 26%; height: 6px; border-radius: 99px; background: rgba(20,14,8,.28); z-index: 2;
-  }
-  /* full setup screen (tall) */
-  .t-tall .visual .phone-front {
-    width: 50%; aspect-ratio: 1 / 2.023; right: 4%; bottom: 6%; z-index: 2; transform: rotate(3deg);
-  }
-  /* full viewer screen (shorter page) */
-  .t-tall .visual .phone-back {
-    width: 47%; aspect-ratio: 1 / 1.544; left: 3%; top: 8%; z-index: 1;
-    transform: rotate(-4deg); filter: brightness(.97);
-  }
-  .tile:hover .phone-front { transform: rotate(3deg) translateY(-5px); }
-  .tile:hover .phone-back { transform: rotate(-4deg) translateY(-5px); }
-  /* Wide half tiles */
-  .t-wide { grid-column: span 3; }
-  .t-wide .diagram {
-    border-top: 1px solid var(--line-2); padding: 22px 24px; background: var(--paper-2);
-  }
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background-color:var(--paper);
+  /* 図面の下敷き。8mm方眼を薄く敷く */
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:32px 32px;
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.85;
+  letter-spacing:.01em;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
 
-  /* Subtitle overlay mock (realtime-translation) */
-  .ov-mock { background: #14171c; border-radius: 8px; padding: 14px 16px; }
-  .ov-mock .src { color: #7f8a99; font-size: .8rem; }
-  .ov-mock .dst { color: #eaf0f7; font-size: .96rem; font-weight: 700; margin-top: 4px; }
-  .ov-mock .bar { display: flex; gap: 5px; margin-top: 10px; }
-  .ov-mock .bar i { height: 4px; border-radius: 2px; background: #2f3947; display: block; }
-  .ov-mock .bar i.a { width: 38%; background: #4f9cff; } .ov-mock .bar i.b { width: 22%; } .ov-mock .bar i.c { width: 30%; }
+.wrap{width:min(100% - 40px,var(--wrap));margin-inline:auto}
 
-  /* Pipeline diagram (youtube) */
-  .pipe { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .pipe .step { font-size: .76rem; font-weight: 700; background: var(--card); border: 1px solid var(--line-2); border-radius: 6px; padding: 6px 10px; }
-  .pipe .arr { color: var(--accent); font-weight: 900; }
+a:focus-visible,button:focus-visible{
+  outline:2px solid var(--shu);
+  outline-offset:3px;
+}
 
-  /* Footer */
-  footer { margin-top: 56px; border-top: 1px solid var(--line-2); }
-  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; padding-top: 24px; padding-bottom: 12px; color: var(--ink-3); font-size: .82rem; }
-  footer a { color: var(--accent-ink); }
-  footer .copyright { color: var(--ink-3); font-size: .74rem; padding-bottom: 40px; }
+/* ── 台帳の表紙 ───────────────────────────── */
 
-  @media (max-width: 860px) {
-    .bento { grid-template-columns: repeat(2, 1fr); }
-    .t-feature, .t-tall, .t-wide { grid-column: span 2; grid-row: auto; }
-    .t-feature .shot, .t-feature .shot img { min-height: 200px; }
-    .t-tall .visual { min-height: 380px; }
-    .t-tall .visual .phone-front { width: 46%; }
-    .t-tall .visual .phone-back { width: 43%; }
-  }
-  @media (max-width: 520px) {
-    .topbar nav { gap: 14px; }
-    .masthead { padding: 44px 0 28px; }
-  }
+.cover{padding:64px 0 40px}
+.plate{
+  background:var(--card);
+  border:1px solid var(--rule-2);
+  box-shadow:0 1px 0 var(--rule-2);
+  padding:36px 36px 30px;
+  position:relative;
+}
+.plate::after{
+  /* 票の内枠。図面の枠線の作法 */
+  content:"";position:absolute;inset:8px;border:1px solid var(--rule);pointer-events:none;
+}
+.plate>*{position:relative;z-index:1}
+
+.slug{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 16px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);
+  padding-bottom:14px;border-bottom:1px solid var(--rule);
+}
+.slug .mark{color:var(--shu);font-weight:600;letter-spacing:.05em}
+.slug .sp{flex:1 1 60px}
+
+h1{
+  font-size:clamp(30px,5.2vw,52px);
+  line-height:1.32;
+  font-weight:900;
+  letter-spacing:-.01em;
+  margin:26px 0 0;
+}
+h1 .u{
+  /* 朱の下線。強調はここ一箇所だけに寄せる */
+  background:linear-gradient(transparent 62%,var(--shu-bg) 62%,var(--shu-bg) 92%,transparent 92%);
+  padding-inline:2px;
+}
+.lead{
+  margin:18px 0 0;max-width:62ch;
+  font-size:clamp(14.5px,1.5vw,16.5px);
+  color:var(--ink-2);
+}
+.coverfoot{
+  margin-top:26px;padding-top:16px;border-top:1px solid var(--rule);
+  display:flex;flex-wrap:wrap;gap:8px 28px;
+  font-family:var(--mono);font-size:12px;color:var(--ink-2);
+}
+.coverfoot a{color:var(--shu);text-decoration:none;border-bottom:1px solid currentColor}
+.coverfoot a:hover{background:var(--shu-bg)}
+
+/* ── 見出し ───────────────────────────── */
+
+.sechead{
+  display:flex;align-items:center;gap:14px;margin:52px 0 18px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.sechead .line{flex:1;height:1px;background:var(--rule-2)}
+
+/* ── 実績票 ───────────────────────────── */
+
+.entries{display:flex;flex-direction:column;gap:22px;padding-bottom:40px}
+
+/*
+  スクロールで順に現れる演出を一度入れたが、外した。
+  既定を opacity:0 にして script で見せる作りだったため、監視が動かない環境で
+  01 以外が真っ白になった（実際にレンダリングして気づいた）。
+  演出のために中身が消える可能性を残す価値はない。常に見える状態を既定にする。
+*/
+.entry{
+  background:var(--card);
+  border:1px solid var(--rule-2);
+  display:grid;
+  grid-template-columns:1fr minmax(320px,430px);
+}
+
+.entry .pad{padding:30px 32px 30px}
+
+.rowhead{
+  display:flex;align-items:baseline;gap:14px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.rowhead .no{
+  font-size:17px;font-weight:600;letter-spacing:.02em;color:var(--ink);
+}
+.rowhead .kind{color:var(--ink-2);letter-spacing:.1em}
+
+.entry h3{
+  margin:12px 0 0;font-size:clamp(21px,2.5vw,27px);font-weight:900;line-height:1.4;
+}
+.entry h3 .en{
+  display:inline-block;margin-left:12px;font-family:var(--mono);
+  font-size:12px;font-weight:500;letter-spacing:.14em;color:var(--ink-3);
+  text-transform:uppercase;vertical-align:middle;
+}
+.entry p{margin:12px 0 0;max-width:56ch;font-size:15px;color:var(--ink-2)}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 0;padding:0;list-style:none}
+.chips li{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
+  padding:3px 9px;border:1px solid var(--rule);color:var(--ink-2);background:#fafbf9;
+}
+
+.links{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.lnk{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13.5px;font-weight:700;text-decoration:none;
+  padding:9px 15px;border:1.5px solid var(--ink);background:var(--ink);color:#fff;
+}
+.lnk svg{flex:none}
+.lnk:hover{background:var(--shu);border-color:var(--shu)}
+.lnk.ghost{background:transparent;color:var(--ink);border-color:var(--rule-2)}
+.lnk.ghost:hover{background:var(--shu-bg);border-color:var(--shu);color:var(--shu)}
+.note{
+  margin:12px 0 0;font-size:12.5px;color:var(--ink-3);
+}
+
+/* 右カラム: 実測値と図版 */
+.side{
+  border-left:1px solid var(--rule);
+  display:flex;flex-direction:column;
+}
+.stampbar{
+  display:flex;justify-content:flex-end;padding:18px 22px 0;
+}
+.stamp{
+  font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  color:var(--shu);border:1.5px solid var(--shu);
+  padding:5px 12px;transform:rotate(-2.2deg);
+  box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4px var(--shu-bg);
+}
+.stamp.quiet{color:var(--ink-3);border-color:var(--rule-2);box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 4px #f0f1ee}
+
+.facts{margin:16px 0 0;padding:0 22px 20px}
+.facts dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:0}
+.facts dt,.facts dd{
+  margin:0;padding:8px 0;border-bottom:1px dotted var(--rule-2);
+  font-size:12.5px;
+}
+.facts dt{font-family:var(--mono);letter-spacing:.06em;color:var(--ink-3);padding-right:18px;white-space:nowrap}
+.facts dd{font-family:var(--mono);font-weight:500;text-align:right;color:var(--ink)}
+.facts dd .unit{font-size:11px;color:var(--ink-3);margin-left:3px;font-weight:400}
+
+.shot{display:block;margin-top:auto;border-top:1px solid var(--rule);background:#f4f5f2}
+.shot img{width:100%}
+
+/* 図版を持たない項目の作図 */
+.figure{margin-top:auto;border-top:1px solid var(--rule);background:#f4f5f2;padding:22px}
+
+.subs{background:#101315;color:#e9ecea;padding:14px 16px;border:1px solid #2a3033}
+.subs .src{font-size:12px;color:#9aa3a1;font-family:var(--mono)}
+.subs .dst{font-size:14.5px;font-weight:700;margin-top:6px;line-height:1.55}
+.subs .bar{display:flex;gap:3px;margin-top:12px;height:4px}
+.subs .bar i{display:block;height:100%;background:#3a4245}
+.subs .bar i:nth-child(1){flex:5;background:var(--shu)}
+.subs .bar i:nth-child(2){flex:2}
+.subs .bar i:nth-child(3){flex:9}
+
+.pipe{display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.pipe .step{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;
+  background:#fff;border:1px solid var(--rule-2);padding:6px 10px;
+}
+.pipe .arr{color:var(--shu);font-family:var(--mono);font-size:12px}
+
+.phones{display:flex;gap:14px;justify-content:center;align-items:flex-end}
+.phone{
+  width:118px;border:6px solid #16191c;border-radius:16px;overflow:hidden;
+  background:#16191c;box-shadow:0 6px 18px rgba(20,24,26,.16);
+}
+.phone.back{transform:translateY(10px) rotate(-3deg);width:104px;opacity:.9}
+.phone img{display:block;width:100%}
+
+/* ── 巻末 ───────────────────────────── */
+
+footer{
+  border-top:1px solid var(--rule-2);margin-top:20px;padding:30px 0 56px;
+  font-family:var(--mono);font-size:12px;color:var(--ink-2);
+}
+footer .row{display:flex;flex-wrap:wrap;gap:10px 26px;align-items:baseline}
+footer .sp{flex:1 1 40px}
+footer a{color:var(--shu);text-decoration:none;border-bottom:1px solid currentColor}
+footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;max-width:74ch}
+
+@media (max-width:900px){
+  .entry{grid-template-columns:1fr}
+  .side{border-left:0;border-top:1px solid var(--rule)}
+  .stampbar{padding:16px 22px 0}
+  .facts dd{text-align:right}
+  .cover{padding:40px 0 28px}
+  .plate{padding:26px 22px 22px}
+  .entry .pad{padding:24px 22px}
+}
 </style>
 </head>
 <body>
 
-<div class="topbar">
+<header class="cover">
   <div class="wrap">
-    <div class="mark">hryoma1217<span class="dot">.</span></div>
-    <nav>
-      <a href="#works">Works</a>
-      <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">GitHub</a>
-    </nav>
-  </div>
-</div>
+    <div class="plate">
+      <div class="slug">
+        <span class="mark">✚ 制作実績台帳</span>
+        <span>hryoma1217</span>
+        <span class="sp"></span>
+        <span>更新 2026-08-20</span>
+        <span>掲載 07 件</span>
+      </div>
 
-<header class="masthead">
-  <div class="wrap">
-    <div class="issue">
-      <span class="star">✶</span>
-      <span>Selected Works</span>
-      <span class="rule"></span>
-      <span>Issue 2026</span>
-    </div>
-    <h1>
-      作って、<em>運用</em>まで。
-      <span class="serif serifline">Design &amp; build, shipped.</span>
-    </h1>
-    <p class="lead">
-      個人開発・受託で手がけた Web アプリ／業務システム／LP の制作実績です。
-      企画・デザインから実装・運用まで一人称で完結させます。
-    </p>
-    <div class="meta">
-      <span>Web App · 業務システム · LP / HP 制作</span>
-      <span>Next.js / React / TypeScript / Cloudflare / AWS</span>
-      <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a>
+      <h1>動いているものだけ、<br><span class="u">載せています。</span></h1>
+
+      <p class="lead">
+        建設会社で毎日使われている業務システム、公開して運用している Web アプリ、
+        依頼者が公式サンプルとして公開した検証レポート。企画から実装、運用まで一人で担当しています。
+        各項に、こちらで確かめられる数字と行き先を書きました。
+      </p>
+
+      <div class="coverfoot">
+        <span>業務システム / Web アプリ / デスクトップアプリ / LP・HP</span>
+        <span>Next.js · React · TypeScript · Python · Cloudflare · AWS</span>
+        <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a>
+      </div>
     </div>
   </div>
 </header>
 
-<main class="wrap" id="works">
-  <div class="sectionhead">
-    <span class="label">Works</span>
-    <span class="count">04 PROJECTS</span>
-  </div>
+<main class="wrap">
+  <div class="sechead"><span>Works</span><span class="line"></span><span>07 entries</span></div>
 
-  <div class="bento">
+  <div class="entries">
 
-    <!-- Genbano: feature -->
-    <article class="tile t-feature">
+    <!-- 01 ゲンバノ -->
+    <article class="entry">
       <div class="pad">
-        <div class="num serif">01</div>
-        <div class="kicker">業務 SaaS · 受託 / 個人開発</div>
+        <div class="rowhead"><span class="no">01</span><span class="kind">業務システム · 受託</span></div>
         <h3>ゲンバノ<span class="en">Genbano</span></h3>
         <p>
-          地方の建設会社向け業務統合システム。紙・Excel・Access でバラバラだった事務を、
-          日報からの原価・請求・給与まで一気通貫で置き換え。職人はスマホ、事務所は PC で同じデータを扱います。
+          地方の建設会社の事務を、日報から原価・請求・給与まで一本にまとめた業務システム。
+          紙と Excel と Access に分かれていたものを置き換えました。2026年8月から実際の業務に入っていて、
+          職人はスマホ、事務所は PC で同じデータを見ています。作って納めて終わりではなく、
+          いまも直しながら運用しています。
         </p>
-        <div class="chips">
-          <span class="chip">Next.js 15</span>
-          <span class="chip">React 19</span>
-          <span class="chip">Cloudflare D1 / R2</span>
-          <span class="chip">LINE LIFF</span>
-        </div>
+        <ul class="chips">
+          <li>Next.js 15</li><li>React 19</li><li>Cloudflare D1 / R2</li><li>LINE LIFF</li>
+        </ul>
         <div class="links">
-          <a class="lnk" href="genbano/demo.html">
-            デモを触る
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          <a class="lnk" href="https://demo.genbano.cloud-nodes.com" target="_blank" rel="noopener">
+            公開デモを触る
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </a>
+          <a class="lnk ghost" href="https://genbano.cloud-nodes.com" target="_blank" rel="noopener">サービスサイト</a>
           <a class="lnk ghost" href="genbano/index.html">ケーススタディ</a>
         </div>
+        <p class="note">デモはログイン画面のデモアカウントを押すだけで入れます。データは架空のもので、毎日リセットされます。</p>
       </div>
-      <a class="shot" href="genbano/demo.html" aria-label="ゲンバノのデモ画面">
-        <img src="assets/genbano-dashboard.png" alt="ゲンバノのダッシュボード画面" loading="lazy">
-      </a>
+      <div class="side">
+        <div class="stampbar"><span class="stamp">稼働中</span></div>
+        <div class="facts">
+          <dl>
+            <dt>実務での稼働開始</dt><dd>2026-08-01</dd>
+            <dt>導入</dt><dd>1 <span class="unit">社 / 運用中</span></dd>
+            <dt>公開デモ</dt><dd>公開中</dd>
+            <dt>担当範囲</dt><dd>要件 → 運用</dd>
+          </dl>
+        </div>
+        <a class="shot" href="genbano/index.html" aria-label="ゲンバノのダッシュボード画面">
+          <img src="assets/genbano-dashboard.png" alt="ゲンバノのダッシュボード画面" loading="lazy" width="1280" height="860">
+        </a>
+      </div>
     </article>
 
-    <!-- Mimamo: tall -->
-    <article class="tile t-tall">
+    <!-- 02 space ocr -->
+    <article class="entry">
       <div class="pad">
-        <div class="num serif">02</div>
-        <div class="kicker">WebRTC SaaS · LP 制作</div>
-        <h3>Mimamo</h3>
+        <div class="rowhead"><span class="no">02</span><span class="kind">検証・技術レポート · 受託</span></div>
+        <h3>OCR API の活用デモと検証レポート<span class="en">verification</span></h3>
         <p>
-          使っていないスマホをブラウザだけで見守りカメラにする P2P サービス。
+          OCR の API を業務システムに載せたとき、どこまで使えるのかを実測してまとめた仕事です。
+          架空の帳票を作って項目ごとの誤り率を出し、業務ルール側の検算でどこまで救えるかまで数字にしました。
+          読み取りが正しいという API の返答をそのまま信じない前提で、確認が要るものだけ人に回す設計まで含めています。
+          成果物は依頼者が公式サンプルとして GitHub で公開し、制作者としてクレジットを載せていただきました。
+        </p>
+        <ul class="chips">
+          <li>OCR API</li><li>Python</li><li>定量評価</li><li>業務ルール設計</li>
+        </ul>
+        <div class="links">
+          <a class="lnk" href="https://github.com/oisidonut/space-ocr-construction-cost-ledger" target="_blank" rel="noopener">
+            公開されている成果物
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <p class="note">リンク先は依頼者側のリポジトリです。デモ、検証レポート、測定に使った生データが入っています。</p>
+      </div>
+      <div class="side">
+        <div class="stampbar"><span class="stamp">公開中</span></div>
+        <div class="facts">
+          <dl>
+            <dt>検証した帳票</dt><dd>20 <span class="unit">枚 × 2経路</span></dd>
+            <dt>保存した API 応答</dt><dd>410 <span class="unit">件</span></dd>
+            <dt>納品レポート</dt><dd>45 <span class="unit">ページ</span></dd>
+            <dt>公開</dt><dd>依頼者 GitHub</dd>
+          </dl>
+        </div>
+        <div class="shot">
+          <img src="assets/spaceocr-confirm.png" alt="読み取り結果の確認画面。原本画像の該当箇所に枠が重ねて表示されている" loading="lazy" width="1400" height="1068">
+        </div>
+      </div>
+    </article>
+
+    <!-- 03 診断アプリ -->
+    <article class="entry">
+      <div class="pad">
+        <div class="rowhead"><span class="no">03</span><span class="kind">Web アプリ · 個人開発</span></div>
+        <h3>診断 Web アプリ 10本とハブ<span class="en">shindan</span></h3>
+        <p>
+          家計や推し活をテーマにした診断アプリを10本作り、送客用のハブから束ねています。
+          企画、文章、デザイン、実装、ドメイン、計測まで一人。商材ごとに配色もレイアウトも別に作り、
+          使い回していません。全件が独自ドメインで本番稼働しています。
+        </p>
+        <ul class="chips">
+          <li>Cloudflare Pages</li><li>静的サイト</li><li>GA4 / Search Console</li><li>独自ドメイン</li>
+        </ul>
+        <div class="links">
+          <a class="lnk" href="https://shindan.cloud-nodes.com" target="_blank" rel="noopener">
+            ハブを見る
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="lnk ghost" href="https://koteihi-diet.cloud-nodes.com" target="_blank" rel="noopener">例: 固定費ダイエット</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="stampbar"><span class="stamp">公開中</span></div>
+        <div class="facts">
+          <dl>
+            <dt>公開本数</dt><dd>10 <span class="unit">本 + ハブ</span></dd>
+            <dt>稼働</dt><dd>全件 本番</dd>
+            <dt>計測</dt><dd>GA4 / GSC</dd>
+            <dt>担当範囲</dt><dd>企画 → 運用</dd>
+          </dl>
+        </div>
+        <a class="shot" href="https://koteihi-diet.cloud-nodes.com" target="_blank" rel="noopener" aria-label="固定費ダイエットの画面">
+          <img src="assets/koteihi-diet.png" alt="10本のうちの1本、固定費ダイエットの画面" loading="lazy" width="1400" height="875">
+        </a>
+      </div>
+    </article>
+
+    <!-- 04 CutLine -->
+    <article class="entry">
+      <div class="pad">
+        <div class="rowhead"><span class="no">04</span><span class="kind">デスクトップアプリ · 個人開発</span></div>
+        <h3>CutLine<span class="en">video editor</span></h3>
+        <p>
+          タイムラインで切って並べる動画編集アプリ。トリム、結合、テロップ、トランジション、
+          キーフレームまで扱えます。書き出しと同じ処理でプレビューを作っているので、
+          見えている絵と出来上がりがずれません。MCP サーバーを同梱していて、
+          Claude Code から会話で編集を指示することもできます。
+        </p>
+        <ul class="chips">
+          <li>Python</li><li>pywebview</li><li>ffmpeg</li><li>MCP</li><li>GPL-3.0</li>
+        </ul>
+      </div>
+      <div class="side">
+        <div class="stampbar"><span class="stamp quiet">配布準備中</span></div>
+        <div class="facts">
+          <dl>
+            <dt>自動テスト</dt><dd>572 <span class="unit">件</span></dd>
+            <dt>ライセンス</dt><dd>GPL-3.0</dd>
+            <dt>外部連携</dt><dd>MCP 同梱</dd>
+            <dt>対応</dt><dd>Windows</dd>
+          </dl>
+        </div>
+        <div class="shot">
+          <img src="assets/cutline-timeline.png" alt="CutLine の編集画面。テロップを載せたプレビューと2本のトラックが並んだタイムライン" loading="lazy" width="1400" height="961">
+        </div>
+      </div>
+    </article>
+
+    <!-- 05 Mimamo -->
+    <article class="entry">
+      <div class="pad">
+        <div class="rowhead"><span class="no">05</span><span class="kind">WebRTC サービス · LP 制作</span></div>
+        <h3>Mimamo<span class="en">baby monitor</span></h3>
+        <p>
+          使っていないスマホを、ブラウザだけで見守りカメラにする P2P サービス。
+          映像はサーバーを経由せず端末どうしで直接つなぎます。
           製品本体とランディングページを一人で設計・実装しました。
         </p>
-        <div class="chips">
-          <span class="chip">WebRTC P2P</span>
-          <span class="chip">AWS Lambda</span>
-          <span class="chip">LP デザイン</span>
-        </div>
+        <ul class="chips">
+          <li>WebRTC P2P</li><li>AWS Lambda</li><li>LP デザイン</li>
+        </ul>
         <div class="links">
-          <a class="lnk" href="mimamo/index.html">
-            LP を見る
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
+          <a class="lnk ghost" href="mimamo/index.html">LP を見る</a>
         </div>
       </div>
-      <a class="visual" href="mimamo/index.html" aria-label="Mimamo の LP と実機画面">
-        <div class="phone phone-back">
-          <div class="screen"><img src="mimamo/shots/view-full.png" alt="Mimamo 視聴画面" loading="lazy"></div>
+      <div class="side">
+        <div class="stampbar"><span class="stamp quiet">制作物</span></div>
+        <div class="facts">
+          <dl>
+            <dt>通信</dt><dd>P2P 直結</dd>
+            <dt>必要なもの</dt><dd>ブラウザのみ</dd>
+            <dt>担当範囲</dt><dd>本体 + LP</dd>
+          </dl>
         </div>
-        <div class="phone phone-front">
-          <div class="screen"><img src="mimamo/shots/setup-full.png" alt="Mimamo カメラ設定画面" loading="lazy"></div>
+        <div class="figure">
+          <div class="phones">
+            <div class="phone back"><img src="mimamo/shots/view-full.png" alt="Mimamo の視聴画面" loading="lazy"></div>
+            <div class="phone"><img src="mimamo/shots/setup-full.png" alt="Mimamo のカメラ設定画面" loading="lazy"></div>
+          </div>
         </div>
-      </a>
+      </div>
     </article>
 
-    <!-- realtime-translation: wide half -->
-    <article class="tile t-wide">
+    <!-- 06 Realtime Translation -->
+    <article class="entry">
       <div class="pad">
-        <div class="num serif">03</div>
-        <div class="kicker">デスクトップ AI アプリ</div>
+        <div class="rowhead"><span class="no">06</span><span class="kind">デスクトップアプリ · 個人開発</span></div>
         <h3>Realtime Translation<span class="en">字幕翻訳</span></h3>
         <p>
-          PC スピーカーの音声をリアルタイムで文字起こし＆翻訳し、画面に字幕オーバーレイ表示。
-          ゲーム・動画視聴中も画面を切り替えずに読めます。
+          PC のスピーカーに出ている音声をそのまま拾って文字起こしし、翻訳して画面に字幕で重ねます。
+          ゲームや動画を見ている最中でも、画面を切り替えずに読めます。
         </p>
-        <div class="chips">
-          <span class="chip">Python</span>
-          <span class="chip">WASAPI</span>
-          <span class="chip">Whisper STT</span>
-          <span class="chip">マルチ AI 連携</span>
-        </div>
+        <ul class="chips">
+          <li>Python</li><li>WASAPI</li><li>Whisper</li><li>マルチ AI 連携</li>
+        </ul>
         <div class="links">
-          <a class="lnk" href="realtime-translation/index.html">
-            詳細を見る
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
+          <a class="lnk ghost" href="realtime-translation/index.html">詳細を見る</a>
         </div>
       </div>
-      <div class="diagram">
-        <div class="ov-mock">
-          <div class="src">"This boss fight is actually insane right now"</div>
-          <div class="dst">このボス戦、マジで今ヤバいことになってる</div>
-          <div class="bar"><i class="a"></i><i class="b"></i><i class="c"></i></div>
+      <div class="side">
+        <div class="stampbar"><span class="stamp quiet">制作物</span></div>
+        <div class="facts">
+          <dl>
+            <dt>音声の取得</dt><dd>WASAPI</dd>
+            <dt>文字起こし</dt><dd>Whisper</dd>
+            <dt>表示</dt><dd>常時最前面</dd>
+          </dl>
+        </div>
+        <div class="figure">
+          <div class="subs">
+            <div class="src">"This boss fight is actually insane right now"</div>
+            <div class="dst">このボス戦、マジで今ヤバいことになってる</div>
+            <div class="bar"><i></i><i></i><i></i></div>
+          </div>
         </div>
       </div>
     </article>
 
-    <!-- YouTube pipeline: wide half -->
-    <article class="tile t-wide">
+    <!-- 07 YouTube パイプライン -->
+    <article class="entry">
       <div class="pad">
-        <div class="num serif">04</div>
-        <div class="kicker">動画自動生成パイプライン</div>
-        <h3>YouTube Auto Pipeline<span class="en">全自動</span></h3>
+        <div class="rowhead"><span class="no">07</span><span class="kind">自動化 · 運用中</span></div>
+        <h3>YouTube 自動生成パイプライン<span class="en">pipeline</span></h3>
         <p>
-          台本生成から音声合成・口パク・字幕・サムネ・投稿までを全自動化した動画パイプライン。
-          長尺（ゆっくり / ずんだもん）と Shorts の両系統を運用しています。
+          台本の生成から音声合成、口パク、字幕、サムネイル、投稿までを通しで自動化した動画パイプライン。
+          長尺とショートの2系統を、実際のチャンネル運用で回しています。
+          止まった箇所が分かるように、工程ごとに結果を残す作りにしています。
         </p>
-        <div class="chips">
-          <span class="chip">Python</span>
-          <span class="chip">VOICEVOX</span>
-          <span class="chip">FFmpeg</span>
-          <span class="chip">LLM 台本</span>
-        </div>
+        <ul class="chips">
+          <li>Python</li><li>VOICEVOX</li><li>FFmpeg</li><li>LLM 台本</li>
+        </ul>
         <div class="links">
-          <a class="lnk" href="youtube/index.html">
-            詳細を見る
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
-          </a>
+          <a class="lnk ghost" href="youtube/index.html">詳細を見る</a>
         </div>
       </div>
-      <div class="diagram">
-        <div class="pipe">
-          <span class="step">台本</span><span class="arr">→</span>
-          <span class="step">音声合成</span><span class="arr">→</span>
-          <span class="step">口パク/字幕</span><span class="arr">→</span>
-          <span class="step">サムネ</span><span class="arr">→</span>
-          <span class="step">投稿</span>
+      <div class="side">
+        <div class="stampbar"><span class="stamp">運用中</span></div>
+        <div class="facts">
+          <dl>
+            <dt>系統</dt><dd>長尺 / ショート</dd>
+            <dt>音声</dt><dd>VOICEVOX</dd>
+            <dt>投稿</dt><dd>API 経由</dd>
+          </dl>
+        </div>
+        <div class="figure">
+          <div class="pipe">
+            <span class="step">台本</span><span class="arr">→</span>
+            <span class="step">音声合成</span><span class="arr">→</span>
+            <span class="step">口パク・字幕</span><span class="arr">→</span>
+            <span class="step">サムネ</span><span class="arr">→</span>
+            <span class="step">投稿</span>
+          </div>
         </div>
       </div>
     </article>
@@ -373,10 +559,17 @@
 
 <footer>
   <div class="wrap">
-    <div>hryoma1217 — Selected Works, 2026</div>
-    <div><a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a></div>
+    <div class="row">
+      <span>hryoma1217 — 制作実績台帳</span>
+      <span class="sp"></span>
+      <span>更新 2026-08-20</span>
+      <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a>
+    </div>
+    <p class="fine">
+      掲載内容は制作者本人の実績です。受託案件については、依頼者名および依頼者の非公開情報は記載していません。
+      © 2026 hryoma1217. 本ページおよび掲載デザイン・文章の無断転載・複製を禁じます。
+    </p>
   </div>
-  <div class="wrap copyright">© 2026 hryoma1217 (github.com/hryoma1217). 本ページおよび掲載デザイン・文章の無断転載・複製を禁じます。ポートフォリオ用途。</div>
 </footer>
 
 </body>
