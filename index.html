@@ -274,7 +274,7 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
         <span class="mark">✚ 制作実績台帳</span>
         <span>hryoma1217</span>
         <span class="sp"></span>
-        <span>更新 2026-08-20</span>
+        <span>更新 2026-08-24</span>
         <span>掲載 07 件</span>
       </div>
 
@@ -282,7 +282,7 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
 
       <p class="lead">
         建設会社で毎日使われている業務システム、公開して運用している Web アプリ、
-        依頼者が公式サンプルとして公開した検証レポート。企画から実装、運用まで一人で担当しています。
+        プレスリリースで実名紹介いただいた OCR 活用デモと検証レポート。企画から実装、運用まで一人で担当しています。
         各項に、こちらで確かめられる数字と行き先を書きました。
       </p>
 
@@ -344,23 +344,30 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
     <article class="entry">
       <div class="pad">
         <div class="rowhead"><span class="no">02</span><span class="kind">検証・技術レポート · 受託</span></div>
-        <h3>OCR API の活用デモと検証レポート<span class="en">verification</span></h3>
+        <h3>工事別原価台帳（OCR API 活用デモ）と検証レポート<span class="en">verification</span></h3>
         <p>
-          OCR の API を業務システムに載せたとき、どこまで使えるのかを実測してまとめた仕事です。
-          架空の帳票を作って項目ごとの誤り率を出し、業務ルール側の検算でどこまで救えるかまで数字にしました。
-          読み取りが正しいという API の返答をそのまま信じない前提で、確認が要るものだけ人に回す設計まで含めています。
-          成果物は依頼者が公式サンプルとして GitHub で公開し、制作者としてクレジットを載せていただきました。
+          OCR API「space ocr」の提供元から依頼を受け、請求書の読み取りを工事別の原価台帳に載せるところまでを作り、
+          あわせて精度を実測したレポートを納めた仕事です。読み取った値をそのまま保存するのではなく、
+          検算 → 原本との照合 → 確認 → 原価計上という現場の流れの入口に置いています。
+          架空の帳票で項目ごとの誤り率を出し、業務ルール側の検算でどこまで救えるかまで数字にしました。
+          読み取りが正しいという API の返答をそのまま信じない前提で、確認が要るものだけ人に回す設計です。
+          成果物とソースコードは依頼元が公開し、2026年8月24日のプレスリリースで、
+          外部開発者5名の実装のひとつとして実名で紹介いただきました。
         </p>
         <ul class="chips">
           <li>OCR API</li><li>Python</li><li>定量評価</li><li>業務ルール設計</li>
         </ul>
         <div class="links">
+          <a class="lnk" href="https://prtimes.jp/main/html/rd/p/000000003.000189262.html" target="_blank" rel="noopener">
+            紹介いただいたプレスリリース
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
           <a class="lnk" href="https://github.com/oisidonut/space-ocr-construction-cost-ledger" target="_blank" rel="noopener">
             公開されている成果物
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </a>
         </div>
-        <p class="note">リンク先は依頼者側のリポジトリです。デモ、検証レポート、測定に使った生データが入っています。</p>
+        <p class="note">リンク先はいずれも依頼元が公開しているものです。リポジトリにはデモ、検証レポート、測定に使った生データが入っています。</p>
       </div>
       <div class="side">
         <div class="stampbar"><span class="stamp">公開中</span></div>
@@ -369,7 +376,8 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
             <dt>検証した帳票</dt><dd>20 <span class="unit">枚 × 2経路</span></dd>
             <dt>保存した API 応答</dt><dd>410 <span class="unit">件</span></dd>
             <dt>納品レポート</dt><dd>45 <span class="unit">ページ</span></dd>
-            <dt>公開</dt><dd>依頼者 GitHub</dd>
+            <dt>発注から納品</dt><dd>37 <span class="unit">時間</span></dd>
+            <dt>公開</dt><dd>プレスリリース</dd>
           </dl>
         </div>
         <div class="shot">
@@ -562,7 +570,7 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
     <div class="row">
       <span>hryoma1217 — 制作実績台帳</span>
       <span class="sp"></span>
-      <span>更新 2026-08-20</span>
+      <span>更新 2026-08-24</span>
       <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a>
     </div>
     <p class="fine">
