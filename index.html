@@ -215,6 +215,8 @@ h1 .u{
 
 .shot{display:block;margin-top:auto;border-top:1px solid var(--rule);background:#f4f5f2}
 .shot img{width:100%}
+/* 動画で見せる項（宝島）。静止画だと歩き回る感じが伝わらない */
+.shot video{width:100%;height:auto;display:block}
 
 /* 図版を持たない項目の作図 */
 .figure{margin-top:auto;border-top:1px solid var(--rule);background:#f4f5f2;padding:22px}
@@ -274,8 +276,8 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
         <span class="mark">✚ 制作実績台帳</span>
         <span>hryoma1217</span>
         <span class="sp"></span>
-        <span>更新 2026-08-24</span>
-        <span>掲載 07 件</span>
+        <span>更新 2026-08-31</span>
+        <span>掲載 08 件</span>
       </div>
 
       <h1>動いているものだけ、<br><span class="u">載せています。</span></h1>
@@ -366,8 +368,12 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
             公開されている成果物
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </a>
+          <a class="lnk ghost" href="space-ocr/index.html">
+            追補: エンジン v91 での再測定
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
         </div>
-        <p class="note">リンク先はいずれも依頼元が公開しているものです。リポジトリにはデモ、検証レポート、測定に使った生データが入っています。</p>
+        <p class="note">プレスリリースとリポジトリは依頼元が公開しているものです。リポジトリにはデモ、検証レポート、測定に使った生データが入っています。公開レポートの数字はエンジン v81 時点のものなので、その後の仕様変更を受けて測り直した結果を追補にまとめています。</p>
       </div>
       <div class="side">
         <div class="stampbar"><span class="stamp">公開中</span></div>
@@ -562,6 +568,47 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
       </div>
     </article>
 
+    <!-- 08 宝島 -->
+    <article class="entry">
+      <div class="pad">
+        <div class="rowhead"><span class="no">08</span><span class="kind">Web アプリ · 個人開発</span></div>
+        <h3>宝島（3D 仮想レンタルビデオ店）<span class="en">takarajima</span></h3>
+        <p>
+          配信サービスを横断して、観られるものを棚に並べた 3D の店です。友達と同じ店内を歩いて物色し、
+          上映室に入れば同じものを同時に観られます。何を観るかを決めるまでの時間を、
+          一覧をスクロールする作業ではなく、店を歩く時間として作り直しました。
+          棚は実際のアカウントの視聴可能作品から組み、上映室のキューは全員で操作します。
+          相手が選んだものへは、こちらが押したときだけ合流します。勝手に画面を変えられない、
+          というのが同期の設計方針です。
+        </p>
+        <ul class="chips">
+          <li>Three.js</li><li>TypeScript</li><li>Cloudflare Workers</li><li>Durable Objects</li><li>WebRTC</li>
+        </ul>
+        <p class="note">
+          動画はサンプルデータで撮影したものです。棚に並んでいる作品名は架空で、
+          上映室で流しているのは自分のチャンネルの動画です。稼働中のため公開リンクは載せていません。
+        </p>
+      </div>
+      <div class="side">
+        <div class="stampbar"><span class="stamp">稼働中</span></div>
+        <div class="facts">
+          <dl>
+            <dt>描画</dt><dd>Three.js <span class="unit">WebGL</span></dd>
+            <dt>同時視聴</dt><dd>部屋 <span class="unit">単位</span></dd>
+            <dt>通話</dt><dd>任意 <span class="unit">必須ではない</span></dd>
+            <dt>配信元</dt><dd>YouTube / Twitch / Kick</dd>
+            <dt>公開</dt><dd>限定</dd>
+          </dl>
+        </div>
+        <div class="shot">
+          <video src="assets/takarajima-demo.mp4" poster="assets/takarajima-aisle.png"
+                 autoplay muted loop playsinline width="1280" height="720"
+                 aria-label="店内の通路を歩いて棚を見たあと、上映室に入ってモニターに動画を映すまでの操作">
+          </video>
+        </div>
+      </div>
+    </article>
+
   </div>
 </main>
 
@@ -570,7 +617,7 @@ footer .fine{margin-top:14px;font-size:11px;color:var(--ink-3);line-height:1.8;m
     <div class="row">
       <span>hryoma1217 — 制作実績台帳</span>
       <span class="sp"></span>
-      <span>更新 2026-08-24</span>
+      <span>更新 2026-08-31</span>
       <a href="https://github.com/hryoma1217" target="_blank" rel="noopener">github.com/hryoma1217</a>
     </div>
     <p class="fine">

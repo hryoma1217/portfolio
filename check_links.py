@@ -27,7 +27,9 @@ missing: list[str] = []
 
 for page in pages:
     text = page.read_text(encoding="utf-8", errors="replace")
-    for m in re.finditer(r'(?:src|href)="([^"#?]+)"', text):
+    # poster も参照。<video poster="..."> を数えないと、実際は使っている画像が
+    # 「どこからも参照されていない」に出てしまい、消す判断を誘う。
+    for m in re.finditer(r'(?:src|href|poster)="([^"#?]+)"', text):
         target = m.group(1)
         if target.startswith(("http://", "https://", "mailto:", "data:", "//")):
             continue

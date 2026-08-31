@@ -1,0 +1,499 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   追補ページ（space ocr 再測定記録）のスタイル
+
+   ── 編集ガイド ──────────────────────────────────────────
+   ・色、文字サイズ、余白は、すべて下の :root にまとめてあります。
+     見た目を変えたいときは、まず :root の値を書き換えてください。
+     ここ以外に色や寸法を直接書かない、という約束で作っています。
+   ・トークンの名前は役割で付けています（--text-body は可、--text-14 は不可）。
+   ・クラス名は block__element--modifier の形です。略語は使いません。
+   ・各節の頭に日本語の見出しコメントを置いています。目次代わりに使えます。
+
+   ── 目次 ──────────────────────────────────────────────
+     1. トークン（色・文字・余白）
+     2. 土台
+     3. 台帳へ戻る帯
+     4. 表題部（何を、いつ、どの版で測ったか）
+     5. 節
+     6. 比較表
+     7. 検査印
+     8. 注意書き
+     9. 再現手順
+    10. 脚部
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. トークン（色・文字・余白）
+   台帳本体（../index.html）と同じ値を使っています。別サイトに見えないように
+   するためなので、片方だけ変えないでください。
+   -------------------------------------------------------------------------- */
+
+:root{
+  /* 色 */
+  --color-paper:#e6e7e3;          /* 打ちっぱなしのコンクリート寄り */
+  --color-card:#ffffff;
+  --color-ink:#15181b;
+  --color-ink-secondary:#5b636c;
+  --color-ink-tertiary:#878e95;
+  --color-rule:#ced2cb;
+  --color-rule-strong:#aeb4ac;
+  --color-grid:#d9dbd5;           /* 方眼の線 */
+  --color-seal:#b93a2b;           /* 検査印の朱 */
+  --color-seal-wash:#f6e3df;      /* 朱の薄敷き */
+
+  /* 書体 */
+  --font-sans:"Zen Kaku Gothic New",system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+
+  /* 文字サイズ */
+  --text-title:clamp(1.9rem,4.6vw,2.9rem);
+  --text-section:1.12rem;
+  --text-body:1rem;
+  --text-note:.88rem;
+  --text-label:.72rem;            /* 等幅の小さな見出し用 */
+  --text-fine:.78rem;             /* 狭い画面の表 */
+  --text-figure:1.34rem;          /* 実測値 */
+
+  /* 余白 */
+  --space-hairline:4px;
+  --space-tight:10px;
+  --space-inner:18px;
+  --space-block:28px;
+  --space-section:52px;
+
+  /* かたち */
+  --radius-box:3px;
+  --hairline:1px;
+  --wrap-width:940px;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. 土台
+   背景の方眼は台帳本体と同じ 32px 方眼。図面の下敷きのつもりです。
+   -------------------------------------------------------------------------- */
+
+*,*::before,*::after{ box-sizing:border-box }
+
+html{ -webkit-text-size-adjust:100% }
+
+body{
+  margin:0;
+  background-color:var(--color-paper);
+  background-image:
+    linear-gradient(var(--color-grid) var(--hairline),transparent var(--hairline)),
+    linear-gradient(90deg,var(--color-grid) var(--hairline),transparent var(--hairline));
+  background-size:32px 32px;
+  color:var(--color-ink);
+  font-family:var(--font-sans);
+  font-size:var(--text-body);
+  line-height:1.85;
+  letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+}
+
+.page-wrap{
+  max-width:var(--wrap-width);
+  margin:0 auto;
+  padding:0 var(--space-block);
+}
+
+/* キーボード操作で今どこにいるかが見えるようにする */
+a:focus-visible{
+  outline:2px solid var(--color-seal);
+  outline-offset:2px;
+}
+
+/* 動きを減らす設定の人には動かさない */
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important }
+}
+
+
+/* --------------------------------------------------------------------------
+   3. 台帳へ戻る帯
+   ページ最上部の黒帯。ここが台帳の一部であることを示します。
+   -------------------------------------------------------------------------- */
+
+.ledger-bar{
+  background:var(--color-ink);
+  color:var(--color-paper);
+  font-size:var(--text-note);
+}
+
+.ledger-bar__inner{
+  max-width:var(--wrap-width);
+  margin:0 auto;
+  padding:var(--space-tight) var(--space-block);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--space-inner);
+}
+
+.ledger-bar__back{
+  color:var(--color-paper);
+  text-decoration:none;
+  font-weight:700;
+}
+
+.ledger-bar__back:hover{ text-decoration:underline }
+
+.ledger-bar__note{
+  color:var(--color-ink-tertiary);
+  font-family:var(--font-mono);
+  font-size:var(--text-label);
+  letter-spacing:.08em;
+}
+
+/* 狭い画面では右側の注記を落とす */
+@media (max-width:560px){
+  .ledger-bar__note{ display:none }
+}
+
+
+/* --------------------------------------------------------------------------
+   4. 表題部（何を、いつ、どの版で測ったか）
+   このページの要。追補は「どの時点の測定か」が分からないと読めないので、
+   本文より先に測定条件を置いています。
+   -------------------------------------------------------------------------- */
+
+.record-head{ padding:var(--space-section) 0 var(--space-block) }
+
+.record-head__eyebrow{
+  font-family:var(--font-mono);
+  font-size:var(--text-label);
+  letter-spacing:.22em;
+  color:var(--color-seal);
+  margin:0 0 var(--space-tight);
+}
+
+.record-head__title{
+  margin:0;
+  font-size:var(--text-title);
+  font-weight:900;
+  line-height:1.2;
+  letter-spacing:-.02em;
+}
+
+.record-head__lead{
+  margin:var(--space-inner) 0 0;
+  color:var(--color-ink-secondary);
+  max-width:38em;
+}
+
+/* 測定条件の欄。試験成績書の表題部を借りています */
+.specimen{
+  margin-top:var(--space-block);
+  background:var(--color-card);
+  border:var(--hairline) solid var(--color-rule-strong);
+  border-radius:var(--radius-box);
+  padding:var(--space-inner) var(--space-block);
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:var(--space-hairline) var(--space-block);
+  align-items:baseline;
+}
+
+.specimen__term{
+  font-family:var(--font-mono);
+  font-size:var(--text-label);
+  letter-spacing:.06em;
+  color:var(--color-ink-tertiary);
+  white-space:nowrap;
+  margin:0;
+}
+
+.specimen__value{
+  margin:0;
+  font-size:var(--text-note);
+}
+
+.specimen__value--current{
+  font-family:var(--font-mono);
+  font-weight:600;
+  color:var(--color-seal);
+}
+
+@media (max-width:560px){
+  .specimen{ grid-template-columns:1fr; gap:0 }
+  .specimen__value{ margin-bottom:var(--space-tight) }
+}
+
+
+/* --------------------------------------------------------------------------
+   5. 節
+   -------------------------------------------------------------------------- */
+
+.record-section{
+  /* 罫線の上下で余白が二重にならないよう、間隔は margin 側だけで作る */
+  padding:var(--space-block) 0 0;
+  border-top:var(--hairline) solid var(--color-rule-strong);
+  margin-top:var(--space-section);
+}
+
+.record-section__heading{
+  display:flex;
+  align-items:baseline;
+  gap:var(--space-inner);
+  margin:0 0 var(--space-inner);
+  font-size:var(--text-section);
+  font-weight:900;
+}
+
+.record-section__number{
+  font-family:var(--font-mono);
+  font-size:var(--text-label);
+  letter-spacing:.12em;
+  color:var(--color-seal);
+}
+
+.record-section__body{
+  margin:0 0 var(--space-inner);
+  color:var(--color-ink-secondary);
+  max-width:40em;
+}
+
+.record-section__subheading{
+  margin:var(--space-block) 0 var(--space-tight);
+  font-size:var(--text-body);
+  font-weight:700;
+  color:var(--color-ink);
+}
+
+.record-section__code{
+  font-family:var(--font-mono);
+  font-size:.92em;
+  background:var(--color-card);
+  border:var(--hairline) solid var(--color-rule);
+  border-radius:var(--radius-box);
+  padding:0 var(--space-hairline);
+}
+
+.record-section__quote{
+  margin:var(--space-inner) 0;
+  padding:var(--space-tight) var(--space-inner);
+  border-left:3px solid var(--color-rule-strong);
+  color:var(--color-ink-secondary);
+  font-size:var(--text-note);
+}
+
+
+/* --------------------------------------------------------------------------
+   6. 比較表
+   v81 と v91 を必ず横に並べます。片方だけの数字は、読む人が比較できません。
+   幅が足りないときは表の中だけ横スクロールさせ、ページ全体は横に伸ばしません。
+   -------------------------------------------------------------------------- */
+
+.table-scroll{
+  overflow-x:auto;
+  margin:var(--space-inner) 0;
+  border:var(--hairline) solid var(--color-rule-strong);
+  border-radius:var(--radius-box);
+  background:var(--color-card);
+}
+
+.measure-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:var(--text-note);
+}
+
+.measure-table__caption{
+  text-align:left;
+  padding:var(--space-tight) var(--space-inner);
+  font-family:var(--font-mono);
+  font-size:var(--text-label);
+  letter-spacing:.1em;
+  color:var(--color-ink-tertiary);
+  border-bottom:var(--hairline) solid var(--color-rule);
+}
+
+.measure-table__column-head{
+  text-align:left;
+  padding:var(--space-tight) var(--space-inner);
+  font-family:var(--font-mono);
+  font-size:var(--text-label);
+  letter-spacing:.08em;
+  color:var(--color-ink-tertiary);
+  font-weight:500;
+  white-space:nowrap;
+  border-bottom:var(--hairline) solid var(--color-rule-strong);
+}
+
+.measure-table__column-head--figure{ text-align:right }
+
+.measure-table__row-head{
+  text-align:left;
+  padding:var(--space-tight) var(--space-inner);
+  font-weight:500;
+  white-space:nowrap;
+  border-bottom:var(--hairline) solid var(--color-rule);
+}
+
+.measure-table__cell{
+  padding:var(--space-tight) var(--space-inner);
+  font-family:var(--font-mono);
+  text-align:right;
+  white-space:nowrap;
+  border-bottom:var(--hairline) solid var(--color-rule);
+}
+
+.measure-table__cell--before{ color:var(--color-ink-tertiary) }
+
+.measure-table__cell--after{ color:var(--color-ink); font-weight:600 }
+
+/* 定常状態の行。この2行が結論なので、朱を薄く敷いて拾えるようにする */
+.measure-table__cell--headline{
+  color:var(--color-seal);
+  font-weight:600;
+  background:var(--color-seal-wash);
+}
+
+.measure-table__row-head--headline{ background:var(--color-seal-wash) }
+
+
+/* 狭い画面。3列を必ず画面内に収める。
+   横スクロールに逃がすと v91 の列が画面外に隠れ、比較表なのに「後」の数字が
+   読めなくなる（実機で踏んだ）。行見出しの折り返しを許して列を残す。 */
+@media (max-width:560px){
+  .measure-table{ font-size:var(--text-fine) }
+
+  .measure-table__caption,
+  .measure-table__column-head,
+  .measure-table__row-head,
+  .measure-table__cell{ padding:var(--space-tight) }
+
+  /* 折り返すのは行見出しだけ。数値は「4 枚 (20%)」で1行に保つ */
+  .measure-table__row-head{ white-space:normal }
+}
+
+
+/* --------------------------------------------------------------------------
+   7. 検査印
+   このレポートの要件は「素通しにした中に誤りを混ぜないこと」の一点なので、
+   そこだけ印にしています。ここ以外で朱の面積を増やさないでください。
+   -------------------------------------------------------------------------- */
+
+.seal{
+  display:flex;
+  align-items:center;
+  gap:var(--space-block);
+  flex-wrap:wrap;
+  margin:var(--space-block) 0;
+  padding:var(--space-inner) var(--space-block);
+  background:var(--color-card);
+  border:var(--hairline) solid var(--color-rule-strong);
+  border-radius:var(--radius-box);
+}
+
+.seal__mark{
+  font-family:var(--font-mono);
+  font-size:var(--text-label);
+  letter-spacing:.14em;
+  color:var(--color-seal);
+  border:2px solid var(--color-seal);
+  border-radius:var(--radius-box);
+  padding:var(--space-hairline) var(--space-tight);
+  white-space:nowrap;
+}
+
+.seal__figure{
+  font-family:var(--font-mono);
+  font-size:var(--text-figure);
+  font-weight:600;
+}
+
+.seal__note{
+  margin:0;
+  font-size:var(--text-note);
+  color:var(--color-ink-secondary);
+}
+
+
+/* --------------------------------------------------------------------------
+   8. 注意書き
+   直っていないこと・こちらの判別の限界を書く欄。都合の悪いことほど
+   拾いやすい位置に置きます。
+   -------------------------------------------------------------------------- */
+
+.caveat{
+  margin:var(--space-inner) 0;
+  padding:var(--space-inner) var(--space-block);
+  background:var(--color-seal-wash);
+  border-left:3px solid var(--color-seal);
+  border-radius:0 var(--radius-box) var(--radius-box) 0;
+}
+
+.caveat__heading{
+  margin:0 0 var(--space-hairline);
+  font-size:var(--text-note);
+  font-weight:700;
+  color:var(--color-seal);
+}
+
+.caveat__body{
+  margin:0;
+  font-size:var(--text-note);
+  color:var(--color-ink-secondary);
+}
+
+
+/* --------------------------------------------------------------------------
+   9. 再現手順
+   -------------------------------------------------------------------------- */
+
+.reproduce{
+  margin:var(--space-inner) 0;
+  background:var(--color-ink);
+  border-radius:var(--radius-box);
+  padding:var(--space-inner) var(--space-block);
+  overflow-x:auto;
+}
+
+.reproduce__line{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:var(--text-note);
+  color:var(--color-paper);
+  white-space:pre;
+}
+
+.reproduce__comment{ color:var(--color-ink-tertiary) }
+
+
+/* --------------------------------------------------------------------------
+   10. 脚部
+   -------------------------------------------------------------------------- */
+
+.page-footer{
+  margin-top:var(--space-section);
+  border-top:var(--hairline) solid var(--color-rule-strong);
+  padding:var(--space-block) 0 var(--space-section);
+}
+
+.page-footer__note{
+  margin:0 0 var(--space-tight);
+  font-size:var(--text-note);
+  color:var(--color-ink-secondary);
+  max-width:40em;
+}
+
+.page-footer__link{
+  color:var(--color-seal);
+  text-decoration:none;
+  border-bottom:var(--hairline) solid currentColor;
+}
+
+.page-footer__link:hover{ background:var(--color-seal-wash) }
+
+.page-footer__stamp{
+  margin-top:var(--space-inner);
+  font-family:var(--font-mono);
+  font-size:var(--text-label);
+  letter-spacing:.1em;
+  color:var(--color-ink-tertiary);
+}
