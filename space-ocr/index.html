@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>追補: エンジン v91 での再測定 — space ocr 検証レポート | hryoma1217</title>
+<meta name="description" content="space ocr の活用デモに添えた検証レポートは API v2.5 / エンジン v81 時点の測定です。その後の仕様変更を受けて同じ実データで測り直した結果と、測定時点の記録。">
+<meta name="theme-color" content="#e6e7e3">
+<meta property="og:title" content="追補: エンジン v91 での再測定 — space ocr 検証レポート">
+<meta property="og:description" content="本編レポートは v81 時点の測定です。現行との差を、同じ実データで測り直しました。">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- 台帳へ戻る帯 ================================================== -->
+<nav class="ledger-bar">
+  <div class="ledger-bar__inner">
+    <a class="ledger-bar__back" href="../index.html">← 制作実績台帳へ戻る</a>
+    <span class="ledger-bar__note">02 / 検証・技術レポート</span>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- 表題部: 何を、いつ、どの版で測ったか ======================== -->
+  <header class="record-head">
+    <p class="record-head__eyebrow">追補 · 再測定記録</p>
+    <h1 class="record-head__title">エンジン v91 での再測定</h1>
+
+    <p class="record-head__lead">
+      OCR API「space ocr」の活用デモに添えた検証レポートは、API v2.5 / エンジン v81 時点の測定です。
+      その後 API 側の仕様が変わったため、同じ実データで測り直しました。
+      本編の数字を書き換えるのではなく、v81 時点の記録として本編を残し、現行との差をここに書きます。
+    </p>
+
+    <!-- 測定条件。追補は「どの時点の測定か」が分からないと読めないので本文より先に置く -->
+    <dl class="specimen">
+      <dt class="specimen__term">本編の測定</dt>
+      <dd class="specimen__value">API v2.5 ／ エンジン v81（e8462e4）</dd>
+
+      <dt class="specimen__term">この追補の測定</dt>
+      <dd class="specimen__value specimen__value--current">API v2.9 ／ エンジン v91（85510a9・2026-08-29 反映）</dd>
+
+      <dt class="specimen__term">測定日</dt>
+      <dd class="specimen__value">2026-08-31</dd>
+
+      <dt class="specimen__term">対象</dt>
+      <dd class="specimen__value">経路A（PDF 直出力）20 枚、経路B（印刷して撮影）20 枚、FieldSpec v3。本編と同じ条件</dd>
+
+      <dt class="specimen__term">呼び出し</dt>
+      <dd class="specimen__value">80 回</dd>
+    </dl>
+  </header>
+
+
+  <!-- 1. 結論 ==================================================== -->
+  <section class="record-section">
+    <h2 class="record-section__heading">
+      <span class="record-section__number">01</span>
+      結論
+    </h2>
+
+    <p class="record-section__body">
+      素通し率が上がり、混入は 0 のままでした。素通しとは、読み取り結果のうち人の確認を経ずに
+      原価計上へ回してよいと判定したもののことです。
+    </p>
+
+    <div class="table-scroll">
+      <table class="measure-table">
+        <caption class="measure-table__caption">素通しにできた枚数（各 20 枚中）</caption>
+        <thead>
+          <tr>
+            <th class="measure-table__column-head" scope="col">条件</th>
+            <th class="measure-table__column-head measure-table__column-head--figure" scope="col">v81</th>
+            <th class="measure-table__column-head measure-table__column-head--figure" scope="col">v91</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="measure-table__row-head" scope="row">経路A・導入直後</th>
+            <td class="measure-table__cell measure-table__cell--before">2 枚 (10%)</td>
+            <td class="measure-table__cell measure-table__cell--after">4 枚 (20%)</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">経路A・使いながら覚える</th>
+            <td class="measure-table__cell measure-table__cell--before">5 枚 (25%)</td>
+            <td class="measure-table__cell measure-table__cell--after">9 枚 (45%)</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head measure-table__row-head--headline" scope="row">経路A・定常状態</th>
+            <td class="measure-table__cell measure-table__cell--before">9 枚 (45%)</td>
+            <td class="measure-table__cell measure-table__cell--headline">14 枚 (70%)</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">経路B・導入直後</th>
+            <td class="measure-table__cell measure-table__cell--before">1 枚 (5%)</td>
+            <td class="measure-table__cell measure-table__cell--after">1 枚 (5%)</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">経路B・使いながら覚える</th>
+            <td class="measure-table__cell measure-table__cell--before">4 枚 (20%)</td>
+            <td class="measure-table__cell measure-table__cell--after">5 枚 (25%)</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head measure-table__row-head--headline" scope="row">経路B・定常状態</th>
+            <td class="measure-table__cell measure-table__cell--before">6 枚 (30%)</td>
+            <td class="measure-table__cell measure-table__cell--headline">8 枚 (40%)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 検査印。このレポートの要件はこの一点なので、ここだけ印にする -->
+    <div class="seal">
+      <span class="seal__mark">素通しの中の誤り</span>
+      <span class="seal__figure">0 件</span>
+      <p class="seal__note">
+        v81・v91 とも全条件で 0 件。この判定の要件は「素通しにした中に誤りを混ぜないこと」の一点なので、
+        そこは維持されています。削減率だけを見ると、誤りを自動で通す設計を効果ありと読み違えます。
+      </p>
+    </div>
+  </section>
+
+
+  <!-- 2. 確認できたAPI側の変更 ==================================== -->
+  <section class="record-section">
+    <h2 class="record-section__heading">
+      <span class="record-section__number">02</span>
+      確認できた API 側の変更
+    </h2>
+
+    <h3 class="record-section__subheading">印字文字列を読む手段が用意された（v82 / v83）</h3>
+
+    <p class="record-section__body">本編 4.4 節に、こう書きました。</p>
+
+    <blockquote class="record-section__quote">
+      カンマから小数点への誤読は検算を全部通る。正規化後の数値ではなく印字文字列を見るしかない。
+    </blockquote>
+
+    <p class="record-section__body">
+      その「印字文字列を見る」手段が
+      <code class="record-section__code">evidence.text_match</code> と
+      <code class="record-section__code">evidence.printed_text</code> として用意されました。
+    </p>
+
+    <div class="table-scroll">
+      <table class="measure-table">
+        <caption class="measure-table__caption">経路A・文字照合の付き方（セル数）</caption>
+        <thead>
+          <tr>
+            <th class="measure-table__column-head" scope="col">項目</th>
+            <th class="measure-table__column-head measure-table__column-head--figure" scope="col">v81</th>
+            <th class="measure-table__column-head measure-table__column-head--figure" scope="col">v91</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="measure-table__row-head" scope="row">text_match を持つセル</th>
+            <td class="measure-table__cell measure-table__cell--before">0</td>
+            <td class="measure-table__cell measure-table__cell--after">1,372</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">うち false</th>
+            <td class="measure-table__cell measure-table__cell--before">—</td>
+            <td class="measure-table__cell measure-table__cell--after">4</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">text_match が付かないセル</th>
+            <td class="measure-table__cell measure-table__cell--before">1,615</td>
+            <td class="measure-table__cell measure-table__cell--after">241</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="record-section__body">
+      v91 で残る 241 件は、値を持たない幾何セル（表の枠、行の union）で、元から検査の対象外です。
+      値を持つセルには全て付いていました。判定はこれを読むようにし、v81 では読む手段が無かった
+      文字不一致を、経路A で 4 件、経路B で 4 件、新たに捕捉しています。
+    </p>
+
+    <h3 class="record-section__subheading">数量・単価にセルが付いた（v89）</h3>
+    <p class="record-section__body">
+      <code class="record-section__code">items[].qty</code> と
+      <code class="record-section__code">items[].unit_price</code> に座標が返るようになりました。
+      経路A で 475 件、経路B で 471 件。本編の測定時にはセルごと存在せず、箱も照合結果も無い状態で
+      値だけがありました。
+    </p>
+
+    <h3 class="record-section__subheading">短い数値に無理な箱を付けなくなった（v91）</h3>
+    <p class="record-section__body">
+      1〜2 桁の数値セルが、長い数字の一部に箱を付けなくなり、代わりに
+      <code class="record-section__code">nobox</code> を返します。提供元の説明では、以前は
+      <code class="record-section__code">¥108</code> の「1」に数量の箱が付いて
+      <code class="record-section__code">verified: true</code> で返っていました。
+      少なくとも今回のサンプルでは、無理な箱付けが減ったと解釈できます。
+      ただし nobox の増加そのものは精度の指標ではないため、良し悪しの判断はここでは行いません。
+    </p>
+  </section>
+
+
+  <!-- 3. こちらの実装を直した点 ==================================== -->
+  <section class="record-section">
+    <h2 class="record-section__heading">
+      <span class="record-section__number">03</span>
+      こちらの実装を直した点
+    </h2>
+
+    <p class="record-section__body">
+      v82 で <code class="record-section__code">verified</code> の意味が「文字照合の結果」から
+      「review に理由が立たなかったか」に変わりました。こちらの判定は
+      <code class="record-section__code">verified=false</code> を無条件に止める作りのままだったため、
+      <code class="record-section__code">nobox</code> だけで false が立つ場合まで止めていました。
+      そのままでは、意図して通していたものまで止まり、素通し率だけが下がります。
+      理由の側を見て判断する形に変えています。
+    </p>
+
+    <div class="caveat">
+      <p class="caveat__heading">世代はレスポンスから自動で判別しています</p>
+      <p class="caveat__body">
+        呼び出し側にフラグを渡させる形にすると、渡し忘れたときに v82 以降のレスポンスを
+        v81 の意味で判定して、静かに緩くなります。text_match を持つセルが 1 つでもあれば
+        v82 以降、という判定で切り替えています。
+      </p>
+    </div>
+
+    <div class="caveat">
+      <p class="caveat__heading">この判別には限界があります</p>
+      <p class="caveat__body">
+        v82 以降なのに全ての値セルで text_match が欠けているレスポンスは、v81 と見分けが付かず
+        v81 として扱われます。そのとき欠落は止められません。レスポンスの中だけでは識別できないため、
+        限界として引き受けています。
+      </p>
+    </div>
+  </section>
+
+
+  <!-- 4. 直っていないこと ========================================== -->
+  <section class="record-section">
+    <h2 class="record-section__heading">
+      <span class="record-section__number">04</span>
+      直っていないこと
+    </h2>
+
+    <h3 class="record-section__subheading">同じ入力で結果が変わる</h3>
+    <p class="record-section__body">
+      本編で「同じ条件で 2 回測って 95.4%」と書いた件です。変わっていません。
+      経路A・spec v3 で、同じ画像・同じ宣言を 2 回投げた結果です。
+    </p>
+
+    <div class="table-scroll">
+      <table class="measure-table">
+        <caption class="measure-table__caption">同一条件で 2 回投げた 20 枚の内訳</caption>
+        <thead>
+          <tr>
+            <th class="measure-table__column-head" scope="col">結果</th>
+            <th class="measure-table__column-head measure-table__column-head--figure" scope="col">枚数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="measure-table__row-head" scope="row">完全に同じ</th>
+            <td class="measure-table__cell measure-table__cell--after">2 / 20</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">差がある</th>
+            <td class="measure-table__cell measure-table__cell--after">18 / 20</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">うち values そのものが違う</th>
+            <td class="measure-table__cell measure-table__cell--after">10 / 20</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="record-section__body">
+      セル数も 85 から 87、87 から 86 のように動きます。1 回測って直った・直らないは判断できない、
+      という状況は本編から変わっていません。
+    </p>
+
+    <div class="caveat">
+      <p class="caveat__heading">素直に 2 回投げても測れません</p>
+      <p class="caveat__body">
+        こちらの冪等キーは「画像ハッシュ＋FieldSpec の指紋」から決定的に作っており、同じ条件なら
+        同じキーになるため、2 回目はそのまま同じレスポンスが返ります（1 回目 431 秒に対し 2 回目 31 秒、
+        20 枚とも完全一致）。キーに文字列を混ぜて、初めて実際に実行されました。
+        再測定の入口が未実装のため、提供元の助言に従いこの形で測っています。
+      </p>
+    </div>
+
+    <h3 class="record-section__subheading">near の位置判定（v85〜v87）</h3>
+    <p class="record-section__body">
+      near は、値のそばに印字されているはずの語彙を宣言できる機能です。
+      <code class="record-section__code">v3_near</code> 宣言での理由コードの出方が次のように変わりました。
+    </p>
+
+    <div class="table-scroll">
+      <table class="measure-table">
+        <caption class="measure-table__caption">v3_near 宣言での理由コード（件数）</caption>
+        <thead>
+          <tr>
+            <th class="measure-table__column-head" scope="col">理由コード</th>
+            <th class="measure-table__column-head measure-table__column-head--figure" scope="col">v81</th>
+            <th class="measure-table__column-head measure-table__column-head--figure" scope="col">v91</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="measure-table__row-head" scope="row">ambiguous_occurrence</th>
+            <td class="measure-table__cell measure-table__cell--before">4</td>
+            <td class="measure-table__cell measure-table__cell--after">13</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">near_ambiguous</th>
+            <td class="measure-table__cell measure-table__cell--before">—</td>
+            <td class="measure-table__cell measure-table__cell--after">1</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">text_mismatch</th>
+            <td class="measure-table__cell measure-table__cell--before">5</td>
+            <td class="measure-table__cell measure-table__cell--after">3</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">nobox</th>
+            <td class="measure-table__cell measure-table__cell--before">7</td>
+            <td class="measure-table__cell measure-table__cell--after">14</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="record-section__body">
+      v85 で near_mismatch が分割された効果が出ています。「どの出現も満たさない」のか
+      「満たす出現はあるが別の場所にアンカーされた」のかが区別されるようになり、後者が
+      ambiguous_occurrence として現れています。
+    </p>
+
+    <div class="caveat">
+      <p class="caveat__heading">v87 で明示された限界はそのまま残ります</p>
+      <p class="caveat__body">
+        OCR が「中野 / 様 / 邸」と語を分割した場合、「様」が単独の語になるため位置から判断できません。
+        効く条件と効かない条件が仕様に書かれたことで、こちら側で何を補うかを設計できるようになりました。
+      </p>
+    </div>
+  </section>
+
+
+  <!-- 5. 測定に使ったもの ========================================== -->
+  <section class="record-section">
+    <h2 class="record-section__heading">
+      <span class="record-section__number">05</span>
+      測定に使ったもの
+    </h2>
+
+    <div class="table-scroll">
+      <table class="measure-table">
+        <caption class="measure-table__caption">呼び出しの内訳</caption>
+        <thead>
+          <tr>
+            <th class="measure-table__column-head" scope="col">タグ</th>
+            <th class="measure-table__column-head" scope="col">条件</th>
+            <th class="measure-table__column-head measure-table__column-head--figure" scope="col">枚数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="measure-table__row-head" scope="row">A_v91</th>
+            <td class="measure-table__row-head">経路A・spec v3</td>
+            <td class="measure-table__cell measure-table__cell--after">20</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">B_v91</th>
+            <td class="measure-table__row-head">経路B・spec v3</td>
+            <td class="measure-table__cell measure-table__cell--after">20</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">A_v91_r2</th>
+            <td class="measure-table__row-head">経路A・spec v3・冪等キーを変更（再現性）</td>
+            <td class="measure-table__cell measure-table__cell--after">20</td>
+          </tr>
+          <tr>
+            <th class="measure-table__row-head" scope="row">A_v91_near</th>
+            <td class="measure-table__row-head">経路A・spec v3_near</td>
+            <td class="measure-table__cell measure-table__cell--after">20</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="record-section__body">
+      計 80 回。ほかに冪等キーを変えずに投げた 20 回があり、これは同一レスポンスが返ったため
+      測定には使っていません。エンジンのバージョンは
+      <code class="record-section__code">/health</code> の 2 回目の応答で記録しています
+      （初回はコールドスタートで engine が null になるため）。
+    </p>
+
+    <p class="record-section__body">
+      数字は測定スクリプトから取っています。手で書き写していません。生レスポンスを添えた状態で、
+      次のコマンドで両方の数字が出ます。
+    </p>
+
+    <div class="reproduce">
+      <p class="reproduce__line">python fixtures/measure.py --tags A_v91,B_v91    <span class="reproduce__comment"># この追補の数字</span></p>
+      <p class="reproduce__line">python fixtures/measure.py                       <span class="reproduce__comment"># 本編（v81 時点）の数字</span></p>
+    </div>
+
+    <p class="record-section__body">
+      同じ実データ・同じ判定で、レスポンスだけを入れ替えた比較です。
+      測定に使った生レスポンス 80 件は手元にあります。必要な方はご連絡ください。
+    </p>
+  </section>
+
+
+  <!-- 脚部 ======================================================== -->
+  <footer class="page-footer">
+    <p class="page-footer__note">
+      本編のデモ、検証レポート、測定に使った生データは、依頼元が公開しています。
+      <a class="page-footer__link" href="https://github.com/oisidonut/space-ocr-construction-cost-ledger" target="_blank" rel="noopener">公開されている成果物</a>
+      と
+      <a class="page-footer__link" href="https://prtimes.jp/main/html/rd/p/000000003.000189262.html" target="_blank" rel="noopener">紹介いただいたプレスリリース</a>
+      をご覧ください。
+    </p>
+    <p class="page-footer__note">
+      公開されているレポートの数字は v81 時点のものです。現行の API で同じ測定をすると数字が一致しないため、
+      その差をこのページに残しています。
+    </p>
+    <p class="page-footer__stamp">作成 2026-08-31 ／ hryoma1217</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
